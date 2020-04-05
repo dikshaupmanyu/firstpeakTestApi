@@ -1,0 +1,259 @@
+           <%- include partials/header %>
+
+
+       
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+         <!--  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+          <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+ -->
+          <!-- DataTales Example -->
+
+      <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <!-- <th>Id</th> -->
+                      <th>UserName</th>
+                      <th>Email</th>
+                      <th>Mentor</th>
+                      <th>Date</th>
+<!--                       <th>Action</th>
+ --><!--                       <th>Authenticate by Email</th>
+ -->                    </tr>
+                  </thead>
+                 <!--  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                    </tr>
+                  </tfoot> -->
+                 <!--  <tbody id="showData">
+                  </tbody> -->
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- End of Main Content -->
+
+                 <%- include partials/footer %>
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+ <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+
+
+  <script type="text/javascript">
+
+    window.history.forward(); 
+        function noBack() { 
+            window.history.forward(); 
+        } 
+
+
+window.addEventListener("load", function() {
+
+   // alert(window.location.href);
+
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+  // alert(tokens);
+
+const url = "http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsers";
+fetch(url, {
+  method: "POST",
+  headers: {
+          Authorization: 'Bearer ' + tokens,
+        },
+})
+  .then(resp => resp.json())
+    .then(function(data) {
+       var datak = JSON.stringify(data);
+       var dataResult = JSON.parse(datak); 
+        var len = dataResult.length;
+           $('#dataTables').dataTable( {
+            "aaData": data,   
+            "columns": [
+                // { "data": "id" },
+                { "data": "userName" },
+                { "data": "email" },
+                // { "data": "isMentor" },
+                {
+                "data":   "isMentor",
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {
+                        // return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'"><input type="checkbox" class="editor-active"></a>';
+                        return '<input type="checkbox" class="editor-active">';
+                    }
+                    return data;
+                },
+
+              },
+              { 
+              "data": "createdOn" ,
+              render: function ( data, type, row ) {
+                    // alert(data);
+                    var current_date= new Date(data);
+                    // alert(current_date);
+                    $("#dateval"+row.id).html(current_date);
+                        return '<span id="dateval'+row.id+'"></span>';
+              },
+            }
+            ],
+            rowCallback: function ( row, data ) {
+            // Set the checked state of the checkbox in the table
+            $('input.editor-active', row).prop( 'checked', data.isMentor == true );
+        }
+
+        })
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+
+
+
+   // $('#dataTables').on('click', 'tbody td:not(:first-child)', function () {
+   $('#dataTables').on('click', 'tbody td:eq(2)', function () {
+
+    // alert(tokens);
+    // alert("hii");
+    var table = $('#dataTables').DataTable();
+    var row = table.row(this.closest('tr')).data();
+    var url ;
+    var result = confirm("Are you sure you want to update?");
+    if(result){
+        // Delete logic goes here
+    var userdata = row["userName"];
+    var formData = {appUserName:userdata};
+    var mentordata = row["isMentor"];
+    // alert(mentordata);
+    if(mentordata == false) {
+          url = "http://3.93.137.122:6080/api/appUserWebModify/addMentorUserByUserName";
+      } else if(mentordata == true) {
+          url = "http://3.93.137.122:6080/api/appUserWebModify/removeMentorUserByUserName";
+      } else if(mentordata == null) {
+          url = "http://3.93.137.122:6080/api/appUserWebModify/addMentorUserByUserName";
+      }
+       $.ajax({
+        url : url,
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            alert("User updated Sucessfully !!");
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+    });
+    } else {
+
+       window.location.reload();
+
+    }
+    
+
+          // $('#dataTables').DataTable().ajax.reload();
+
+
+   });
+
+
+
+// function logout() {
+//   // body...
+//   localStorage.clear();
+//   sessionStorage.clear();
+//   window.location.href = "/";
+// }
+
+});
+
+
+   
+ </script>
+ <script type="text/javascript">
+  window.addEventListener("load", function() {
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+   document.getElementById("HomeLink").href = "/home?tokendata="+tokens;
+  document.getElementById("UserLink").href = "/userlist?tokendata="+tokens;
+  // document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
+   document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
+    
+});
+</script>
+
+</body>
+
+</html>

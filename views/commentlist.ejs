@@ -62,11 +62,11 @@
                       <th>Comments</th>
                       <th>Tip Id</th>
                       <th>Status</th>
-<!--                       <th>Action</th>
- --><!--                       <th>Authenticate by Email</th>
- -->                    </tr>
+                      <th>Action</th>
+ <!--                       <th>Authenticate by Email</th>
+                    </tr>
                   </thead>
-                 <!--  <tfoot>
+                  <tfoot>
                     <tr>
                       <th>Name</th>
                       <th>Position</th>
@@ -184,41 +184,12 @@ fetch(url, {
                     $("#sel_user").append("<option value='"+name+"'>"+name+"</option>");
                 }
 
-        //    $('#dataTables').dataTable( {
-        //     "aaData": data,   
-        //     "columns": [
-        //         { "data": "id" },
-        //         { "data": "userName" },
-        //         { "data": "email" },
-        //         // { "data": "isMentor" },
-        //         {
-        //         "data":   "isMentor",
-        //         render: function ( data, type, row ) {
-        //             if ( type === 'display' ) {
-        //                 // return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'"><input type="checkbox" class="editor-active"></a>';
-        //                 return '<input type="checkbox" class="editor-active">';
-        //             }
-        //             return data;
-        //         },
-        //       }
-        //     ],
-        //     rowCallback: function ( row, data ) {
-        //     // Set the checked state of the checkbox in the table
-        //     $('input.editor-active', row).prop( 'checked', data.isMentor == true );
-        // }
-
-        // })
+       
   })
   .catch(function(error) {
     console.log(error);
   });
-   
-// function logout() {
-//   // body...
-//   localStorage.clear();
-//   sessionStorage.clear();
-//   window.location.href = "/";
-// }
+
 
 $('#butSaveData').on('click', function() {
     var UserSelect = $('#sel_user').val();
@@ -256,22 +227,82 @@ $('#butSaveData').on('click', function() {
                 { "data": "commentDetails" },
                 { "data": "tipId" },
                 { "data": "status" },
-               
+                { 'data': null,
+                 'render': function (data, type, row) {
+                       return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+               }
+              },               
             ],
             "deferRender": true,
-        })
+
+
+        });
+
+
+    $('#dataTables').on('click', 'button.deleteButton', function () {
+
+      var id = $(this).attr('id');
+      alert(id);
+
+      var url ;
+      var result = confirm("Are you sure you want to delete?");
+      if(result){
+      var formData = {commentId:id};
+      const url = "http://3.93.137.122:6080/api/comment/deleteCommentByCommentId";
+      $.ajax({
+        url : url,
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
         },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            // alert(dataResultp);
+            alert("Delete Sucessfully !!");
+            window.location.reload();
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+       });
+      
+
+      } else {
+
+          window.location.reload();
+
+      }
+
+      });
+
+        },
+
         error: function (jqXHR, textStatus, errorThrown)
         {
            alert("No data");
         }
+
+
       });
+
+
+
+      
     }
     else{
       alert('Please fill all the field !');
     }
-  });
 
+  
+  
+  });
 
 });
    

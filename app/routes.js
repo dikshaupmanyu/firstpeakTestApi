@@ -12,6 +12,11 @@ module.exports = function(app, passport) {
     res.render('commentlist.ejs');
   });
 
+   app.get('/csvlist', function(req, res) {
+
+    res.render('csvlist.ejs');
+  });
+
   // app.post('/verifyotp', function (req, res , done) {
 
   //   console.log(res);

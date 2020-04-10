@@ -92,6 +92,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
  <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
@@ -99,7 +100,12 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+  <!-- 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
+  <script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js" type="text/javascript"></script>
+
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
 
   <script type="text/javascript">
 
@@ -149,14 +155,43 @@ fetch(url, {
 
               },
               { 
-              "data": "createdOn" ,
-              render: function ( data, type, row ) {
-                    // alert(data);
-                    var current_date= new Date(data);
-                    // alert(current_date);
-                    $("#dateval"+row.id).html(current_date);
-                        return '<span id="dateval'+row.id+'"></span>';
-              },
+              "data": "createdOn",
+               "name":"date",
+               "visible":true,
+               "title":"Date Created",
+               "render": function(data, type, full, meta){
+                if(type == "display"){
+                        var date = new Date(data);
+                        var options = {year: "numeric", month: "long", day: "numeric"};
+
+                        return date.toLocaleDateString('en-US', options);
+                }
+
+                return data;
+              }
+              // render: function ( data, type, row ) {
+              //       // alert(data);
+              //         var current_date= new Date(data);
+
+              //         var timestamp=new Date(data).getTime();
+              //         var todate=new Date(timestamp).getDate();
+              //         if(todate < 10){
+              //           var fdate = "0"+todate;
+              //         }else{
+              //           var fdate = todate;
+              //         }
+              //         var tomonth=new Date(timestamp).getMonth()+1;
+              //         if(tomonth < 10){
+              //           var fmonth = "0"+tomonth;
+              //         }else{
+              //           var fmonth = tomonth;
+              //         }
+              //         var toyear=new Date(timestamp).getFullYear();
+              //         var original_date=fdate+'/'+fmonth+'/'+toyear;
+              //       // alert(current_date);
+              //       $("#dateval"+row.id).html(original_date);
+              //           return '<span id="dateval'+row.id+'"></span>';
+              // },
             }
             ],
             rowCallback: function ( row, data ) {
@@ -169,8 +204,6 @@ fetch(url, {
   .catch(function(error) {
     console.log(error);
   });
-
-
 
 
    // $('#dataTables').on('click', 'tbody td:not(:first-child)', function () {
@@ -237,6 +270,7 @@ fetch(url, {
 // }
 
 });
+
 
 
    

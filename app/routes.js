@@ -12,34 +12,47 @@ module.exports = function(app, passport) {
     res.render('commentlist.ejs');
   });
 
-   app.get('/csvlist', function(req, res) {
 
-    res.render('csvlist.ejs');
+  app.get('/csvlist', function(req, res) {
+
+    var fs = require("fs");
+    var arrayOfFilesc;
+
+    try {
+      var arrayOfFiles = fs.readdirSync("./public/csv");
+      console.log(arrayOfFiles);
+    } catch(e) {
+      console.log(e);
+    }
+
+    res.render('csvlist.ejs' , {data : arrayOfFiles});
   });
 
-  // app.post('/verifyotp', function (req, res , done) {
 
-  //   console.log(res);
-   
-   
-  //  req.post("http://3.93.137.122:6080/api/auth/appSignIn", function(res) {
-   
-  //  console.log(res);
-
-  //  res.setEncoding('utf8');
-  //   res.on("data", function(chunk) {
-  //      //this is body
-  //      // console.log(chunk);
+  app.get('/verifystatus', function (req, res , done) {
+   // console.log(res);
     
-  //   });
-  //     }).on('error', function(e) {
-  //        console.log("Got error: " + e.message);
+    var statusdata = req.query.status;
+    var tokenstatus = req.query.tokenval;        
+     var fs = require("fs");
+       let rawdata = fs.readFileSync('public/json/userdetail.json');
+       let userdetail = JSON.parse(rawdata);
+        // let userdetailNew = JSON.parse(userdetail);
+        console.log(userdetail);  
+        console.log(userdetail.status);
+        var userdetailt = { status : statusdata};
+
+        let data = JSON.stringify(userdetailt, null, 2);
+
+        fs.writeFile('public/json/userdetail.json', data, (err) => {
+             if (err) throw err;
+             console.log(data);
+        });            
+        
+         // return res.redirect("/csvlist?tokendata="+tokenstatus);
 
 
-  //      });
-
-            
-  //    });
+  });
 
 
 	// PROFILE SECTION =========================
@@ -6912,109 +6925,105 @@ console.log(_id);
     var fs =  require('fs');
     var express = require('express');
     var multer = require('multer');
-    var upload = multer({ dest: 'public/uploads'});
-		app.post('/image-upload', upload.single('avatar'), function(req, res) {
-      var _id = req.user._id;
-      console.log(_id);
-      var file = 'public/uploads/' + req.files.avatar.originalFilename;
-        var i = 0;
-       var vm = this;
-        vm.consult = null;
-        vm.allconsults = [];
-    var User       = require('../app/models/user');
-    var Consult       = require('../app/models/consults');
-        var readstatuscount = 0; 
-        var answerstatuscount = 0;  
-        var totalreadconsultstatus = 0 ;
-     
-       Consult.find(function (err, consult) {
-        // docs is an array
-          for(var i = 0; i < consult.length; i++){
-              vm.allconsults[i] = consult[i];
+    var upload = multer({ dest: 'public/csv'});
+		app.post('/word-upload', function(req, res) {
 
-              if(req.user.user_role == 'user'){
-
-                if(req.user._id == consult[i].user_id){
-
-                      var totalreadstatusc = consult[i].read_status;
-
-                      //console.log(totalreadstatusc);
-
-                      if(totalreadstatusc != '1')
-                         {
-                        readstatuscount += 1;
-
-                      
-                         }
-                    }
+       // console.log(req.files);
 
 
-              }
+      var file = 'public/csv/' + req.files.avatar.originalFilename;
 
-          }
+      var passUrl = req.body.dataUrl;
+       
+      // console.log(passUrl);
 
-         //  console.log(readstatuscount);       
+      var checkdataval = req.body.checkdata;
+         // console.log(checkdataval);
 
-          var finalstatusconsult = readstatuscount ;
-        //  console.log(finalstatusconsult);
-         var productvalue = JSON.stringify(consult);
-         var jsonObject = JSON.parse(productvalue);
       fs.rename(req.files.avatar.path, file, function(err) {
         if (err) {
-          console.log(err);
+          // console.log(err);
           res.send(500);
         } else {
-     var imageName = req.files.avatar.originalFilename;
-     
-     var imagepath = {};
-     imagepath['originalname'] = imageName;
 
-     var set = {img:imagepath};
-     var _id = req.user._id;
-     console.log(_id);
+              let rawdata = fs.readFileSync('public/json/userdetail.json');
+              let userdetail = JSON.parse(rawdata);
+              // let userdetailNew = JSON.parse(userdetail);
+              console.log(userdetail);  
+              console.log(userdetail.name);
+              var userdetailt = { name: req.body.checkdata};
 
-         User.findById(_id, function (err, user) {
-      
+              let data = JSON.stringify(userdetailt, null, 2);
 
-                 User.update(
-                  { _id: _id },
-                  { $set: {img:imagepath} 
-               },
-                  function (err, doc) {
-                     console.log(doc); 
+              fs.writeFile('public/json/userdetail.json', data, (err) => {
+                  if (err) throw err;
+                  console.log('Data written to file');
+              });
+            
+
+              return res.redirect("/csvlist?tokendata="+passUrl);
+
         
-                  });  
-
-      //  res.render('account.ejs', {
-      //   loadconsultdata: jsonObject, user : req.user ,totalreadconsultstatus : finalstatusconsult,
-      // });
-
-      
-
-
-      });
-
 
         }
 
       });
-   
-
-   app.get('/account', function (req, res) {
-   // console.log("logggg");
-   res.sendFile( "public/uploads/" + "/" + "account" );
-});
-
-		// res.render('account.ejs', {
-		// 	loadconsultdata: jsonObject, user : req.user ,totalreadconsultstatus : finalstatusconsult,
-		// });
-
-          return res.redirect("account");
 
 	});
 
-	
-   });
+
+    var fs =  require('fs');
+    var express = require('express');
+    var multer = require('multer');
+    var upload = multer({ dest: 'public/csv'});
+    app.post('/blcklist-upload', function(req, res) {
+
+       // console.log(req.files);
+
+
+      var file = 'public/csv/' + req.files.avatar.originalFilename;
+
+      var passUrl = req.body.dataUrl;
+       
+      // console.log(passUrl);
+
+      var checkdataval = req.body.checkdata;
+         // console.log(checkdataval);
+
+      fs.rename(req.files.avatar.path, file, function(err) {
+        if (err) {
+          // console.log(err);
+          res.send(500);
+        } else {
+
+              // let rawdata = fs.readFileSync('public/json/userdetail.json');
+              // let userdetail = JSON.parse(rawdata);
+              // // let userdetailNew = JSON.parse(userdetail);
+              // console.log(userdetail);  
+              // console.log(userdetail.name);
+              // var userdetailt = { name: req.body.checkdata};
+
+              // let data = JSON.stringify(userdetailt, null, 2);
+
+              // fs.writeFile('public/json/blcklistdetail.json', data, (err) => {
+              //     if (err) throw err;
+              //     console.log('Data written to file');
+              // });
+            
+
+              return res.redirect("/csvlist?tokendata="+passUrl);
+
+        
+
+        }
+
+      });
+
+  });
+
+
+
+
 
 
     var fs =  require('fs');

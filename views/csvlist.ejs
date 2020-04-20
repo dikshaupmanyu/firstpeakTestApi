@@ -1,0 +1,395 @@
+           <%- include partials/header %>
+<style type="text/css">
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+       
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+         <!--  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+          <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+ -->
+          <!-- DataTales Example -->
+
+      <div class="card shadow mb-4">
+           <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+
+             <!--  <h6 class="m-0 font-weight-bold text-primary">CSV List</h6>
+              Click the button then choose a file to see its contents displayed below.
+                <button onclick="openFile(dispFile)">Open a file</button>
+                <pre id="contents"></pre> -->
+                <span id="wrap"></span>
+
+                 <div class="card-body">
+              <div class="table-responsive">
+
+              <h4>Downloaded CSV</h4>
+              <label class="switch">
+                   <input type="checkbox" id="togBtn">
+
+                  <span class="slider round"></span>
+              </label>
+              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+              <script type="text/javascript">
+                var switchStatus = false;
+                $("#togBtn").on('change', function() {
+                   var url_string = window.location.href; 
+                    var urls = new URL(url_string);
+                    var tokens = urls.searchParams.get("tokendata");
+                    if ($(this).is(':checked')) {
+                        switchStatus = $(this).is(':checked');
+                        // alert("HII" + switchStatus);// To verify                     
+                      $.ajax({
+                        type: 'GET',
+                        url: 'http://localhost:5555/verifystatus',
+                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+            
+                    }
+                    else {
+                       switchStatus = $(this).is(':checked');
+                       // alert("HELLO" + switchStatus);// To verify
+                       $.ajax({
+                        type: 'GET',
+                        url: 'http://localhost:5555/verifystatus',
+                        data: {status: switchStatus, tokenval : tokens},   
+                          success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+                    }
+                });
+              </script>
+                <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>CSV Name</th>
+                      <th>Download Link</th>
+                   </tr>
+                  </thead>
+                  <tbody>
+                    <% for (var i = 0; i < data.length; i++) { %>  
+                    <tr>
+                    <td><%= data[i] %></td>
+                    <td><a href="/csv/<%= data[i] %>" download>Download CSV File</a></td>
+                   </tr>
+                      
+                    <% } %>              
+                  </tbody>
+                  
+                </table>
+
+                 <h4>Uploaded CSV</h4>
+
+                 <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <!-- <th>CSV Name</th> -->
+                      <th>Upload Words CSV</th>
+                      <th>Upload Blacklist CSV</th>
+                      <!-- <th>Please check the name who download the csv or upload the csv</th> -->
+                   </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    <!-- <td>Words CSV Uploaded</td> -->
+                    <td><form action="/word-upload" method="POST" enctype="multipart/form-data">
+                      <input type="file"  name="avatar" required="required">
+                      <input type="hidden" name="dataUrl" id="urlvalue">
+                      <input type="submit" value="Upload">
+                      </form>
+                    </td>
+                    <td><form action="/blcklist-upload" method="POST" enctype="multipart/form-data">
+                      <input type="file"  name="avatar" required="required">
+                      <input type="hidden" name="dataUrl" id="urlvalue">
+                       <input type="submit" value="Upload">
+                       </form>
+                    </td>
+                 
+                 
+                  
+                      <!-- Sean &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="checkdata" value="Sean" required="required">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bushwick &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="checkdata" value="Bushwick" required="required">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                  
+
+                      
+                      </tr>
+
+                    <!-- <tr>
+                      <p><b>Data (words.csv) Last Uploaded by : <span id="wordvalDataUpadte"></span></b></p>
+                    </tr> -->
+                    
+                  </tbody>
+                  
+                </table>
+               <!--  <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>CSV Name</th>
+                      <th>Upload CSV</th>
+                      <th>Please check the name who download the csv or upload the csv</th>
+                   </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    <td>Blacklist CSV Uploaded</td>
+
+                  
+                      Sean &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="checkdata" value="Sean" required="required">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bushwick &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="checkdata" value="Bushwick" required="required">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                      </tr>
+
+                    <tr>
+                      <p><b>Data (black_list.csv) Last Uploaded by : <span id="blckvalDataUpadte"></span></b></p>
+                    </tr>
+                    
+                  </tbody>
+                  
+                </table>
+ -->              </div>
+            </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- End of Main Content -->
+
+                 <%- include partials/footer %>
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+ <!-- Page level plugins -->
+<!--   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+
+  <!-- Page level custom scripts -->
+<!--   <script src="js/demo/datatables-demo.js"></script>
+ --> 
+ <script type="text/javascript">
+   function dispFile(contents) {
+  document.getElementById('contents').innerHTML=contents
+}
+function clickElem(elem) {
+  // Thx user1601638 on Stack Overflow (6/6/2018 - https://stackoverflow.com/questions/13405129/javascript-create-and-save-file )
+  var eventMouse = document.createEvent("MouseEvents")
+  eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+  elem.dispatchEvent(eventMouse)
+}
+function openFile(func) {
+  readFile = function(e) {
+    var file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var contents = e.target.result;
+      fileInput.func(contents)
+      document.body.removeChild(fileInput)
+    }
+    reader.readAsText(file)
+  }
+  fileInput = document.createElement("input")
+  fileInput.type='file'
+  fileInput.style.display='none'
+  fileInput.onchange=readFile
+  fileInput.func=func
+  document.body.appendChild(fileInput)
+  clickElem(fileInput)
+}
+ </script>
+
+
+                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+ <script type="text/javascript">
+
+  // $(document).ready(function () 
+  //   {
+  //   $.get("./csv", function(data) 
+  //       {
+  //         alert(data);
+  //           $("#fileNames").append(data);
+  //       });
+  // });
+
+  window.addEventListener("load", function() {
+  
+//  $.get('/csv/words.csv', function(data) {
+// var build = '<table border="1" cellpadding="2" cellspacing="0" style="border-collapse: collapse" width="100%">\n';
+// var head = data.split("\n");
+// for(var i=0;i<1;i++){
+// build += "<tr><th>" + head[i] + "</th></tr>";
+// for(var i=1;i<head.length;i++){
+// build += "<tr><td>" + head[i].split("\n") + "</td></tr>";
+// }
+// }
+// build += "</table>";
+// $('#wrap').append(build);
+// });
+
+
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+   document.getElementById("HomeLink").href = "/home?tokendata="+tokens;
+  document.getElementById("UserLink").href = "/userlist?tokendata="+tokens;
+  // document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
+   document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
+      document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
+
+      // $('#urlvalue').val(tokens); 
+
+         document.getElementById("urlvalue").value = tokens; 
+
+
+$.getJSON( "/json/userdetail.json", function( data ) {
+
+       // alert(data.status);
+
+     if(data.status == "true"){
+      // alert("true");
+
+      document.getElementById("togBtn").checked = true;
+
+     }else {
+      // alert("false");
+
+      document.getElementById("togBtn").checked = false;
+
+     }
+
+
+
+  
+});
+
+// $.getJSON( "/json/blcklistdetail.json", function( data ) {
+
+//     // alert(data.name);
+
+//     document.getElementById("blckvalDataUpadte").textContent = data.name;
+
+  
+// });
+
+
+});
+
+</script>
+
+</body>
+
+</html>

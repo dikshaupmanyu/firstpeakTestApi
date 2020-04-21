@@ -29,13 +29,13 @@ module.exports = function(app, passport) {
   });
 
 
-  app.get('/verifystatus', function (req, res , done) {
+  app.get('/Bushwickwordstatus', function (req, res , done) {
    // console.log(res);
     
     var statusdata = req.query.status;
-    var tokenstatus = req.query.tokenval;        
+    // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
-       let rawdata = fs.readFileSync('public/json/userdetail.json');
+       let rawdata = fs.readFileSync('public/json/bushwickWord.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
         console.log(userdetail);  
@@ -44,7 +44,7 @@ module.exports = function(app, passport) {
 
         let data = JSON.stringify(userdetailt, null, 2);
 
-        fs.writeFile('public/json/userdetail.json', data, (err) => {
+        fs.writeFile('public/json/bushwickWord.json', data, (err) => {
              if (err) throw err;
              console.log(data);
         });            
@@ -53,6 +53,84 @@ module.exports = function(app, passport) {
 
 
   });
+
+
+  app.get('/Seanwordstatus', function (req, res , done) {
+   // console.log(res);
+    
+    var statusdata = req.query.status;
+    // var tokenstatus = req.query.tokenval;        
+     var fs = require("fs");
+       let rawdata = fs.readFileSync('public/json/seanWord.json');
+       let userdetail = JSON.parse(rawdata);
+        // let userdetailNew = JSON.parse(userdetail);
+        // console.log(userdetail);  
+        // console.log(userdetail.status);
+        var userdetailt = { status : statusdata};
+
+        let data = JSON.stringify(userdetailt, null, 2);
+
+        fs.writeFile('public/json/seanWord.json', data, (err) => {
+             if (err) throw err;
+             console.log(data);
+        });            
+        
+         // return res.redirect("/csvlist?tokendata="+tokenstatus);
+
+
+  });
+
+   app.get('/seanblackliststatus', function (req, res , done) {
+   // console.log(res);
+    
+    var statusdata = req.query.status;
+    // var tokenstatus = req.query.tokenval;        
+     var fs = require("fs");
+       let rawdata = fs.readFileSync('public/json/seanBlack.json');
+       let userdetail = JSON.parse(rawdata);
+        // let userdetailNew = JSON.parse(userdetail);
+        console.log(userdetail);  
+        console.log(userdetail.status);
+        var userdetailt = { status : statusdata};
+
+        let data = JSON.stringify(userdetailt, null, 2);
+
+        fs.writeFile('public/json/seanBlack.json', data, (err) => {
+             if (err) throw err;
+             console.log(data);
+        });            
+        
+         // return res.redirect("/csvlist?tokendata="+tokenstatus);
+
+
+  });
+
+
+   app.get('/bushwickBlackStatus', function (req, res , done) {
+   // console.log(res);
+    
+    var statusdata = req.query.status;
+    // var tokenstatus = req.query.tokenval;        
+     var fs = require("fs");
+       let rawdata = fs.readFileSync('public/json/bushwikBlack.json');
+       let userdetail = JSON.parse(rawdata);
+        // let userdetailNew = JSON.parse(userdetail);
+        console.log(userdetail);  
+        console.log(userdetail.status);
+        var userdetailt = { status : statusdata};
+
+        let data = JSON.stringify(userdetailt, null, 2);
+
+        fs.writeFile('public/json/bushwikBlack.json', data, (err) => {
+             if (err) throw err;
+             console.log(data);
+        });            
+        
+         // return res.redirect("/csvlist?tokendata="+tokenstatus);
+
+
+  });
+
 
 
 	// PROFILE SECTION =========================
@@ -929,7 +1007,12 @@ app.get('/backmale', isLoggedIn, function(req, res) {
     
   });
 
+   app.get('/flaglist',  function(req, res) {
 
+        res.render('flaglist.ejs');
+     
+    
+  });
 
 
     app.get('/ConsultById/:userid', function(req, res) {
@@ -6937,7 +7020,7 @@ console.log(_id);
        
       // console.log(passUrl);
 
-      var checkdataval = req.body.checkdata;
+      // var checkdataval = req.body.checkdata;
          // console.log(checkdataval);
 
       fs.rename(req.files.avatar.path, file, function(err) {
@@ -6946,22 +7029,24 @@ console.log(_id);
           res.send(500);
         } else {
 
-              let rawdata = fs.readFileSync('public/json/userdetail.json');
-              let userdetail = JSON.parse(rawdata);
-              // let userdetailNew = JSON.parse(userdetail);
-              console.log(userdetail);  
-              console.log(userdetail.name);
-              var userdetailt = { name: req.body.checkdata};
+             var string = encodeURIComponent('something that would break');
 
-              let data = JSON.stringify(userdetailt, null, 2);
+              // let rawdata = fs.readFileSync('public/json/userdetail.json');
+              // let userdetail = JSON.parse(rawdata);
+              // // let userdetailNew = JSON.parse(userdetail);
+              // console.log(userdetail);  
+              // console.log(userdetail.name);
+              // var userdetailt = { name: req.body.checkdata};
 
-              fs.writeFile('public/json/userdetail.json', data, (err) => {
-                  if (err) throw err;
-                  console.log('Data written to file');
-              });
+              // let data = JSON.stringify(userdetailt, null, 2);
+
+              // fs.writeFile('public/json/userdetail.json', data, (err) => {
+              //     if (err) throw err;
+              //     console.log('Data written to file');
+              // });
             
 
-              return res.redirect("/csvlist?tokendata="+passUrl);
+              return res.redirect("/csvlist?tokendata="+passUrl+"&msg="+string);
 
         
 
@@ -6987,7 +7072,7 @@ console.log(_id);
        
       // console.log(passUrl);
 
-      var checkdataval = req.body.checkdata;
+      // var checkdataval = req.body.checkdata;
          // console.log(checkdataval);
 
       fs.rename(req.files.avatar.path, file, function(err) {
@@ -6995,8 +7080,9 @@ console.log(_id);
           // console.log(err);
           res.send(500);
         } else {
+              var string = encodeURIComponent('something that would break');
 
-              // let rawdata = fs.readFileSync('public/json/userdetail.json');
+              // let rawdata = fs.readFileSync('publicpublic/json/userdetail.json');
               // let userdetail = JSON.parse(rawdata);
               // // let userdetailNew = JSON.parse(userdetail);
               // console.log(userdetail);  
@@ -7005,13 +7091,13 @@ console.log(_id);
 
               // let data = JSON.stringify(userdetailt, null, 2);
 
-              // fs.writeFile('public/json/blcklistdetail.json', data, (err) => {
+              // fs.writeFile('publicpublic/json/blcklistdetail.json', data, (err) => {
               //     if (err) throw err;
               //     console.log('Data written to file');
               // });
             
 
-              return res.redirect("/csvlist?tokendata="+passUrl);
+              return res.redirect("/csvlist?tokendata="+passUrl+"&msg="+string);
 
         
 

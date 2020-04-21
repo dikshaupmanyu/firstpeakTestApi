@@ -84,7 +84,7 @@ input:checked + .slider:before {
               <div class="table-responsive">
 
               <h4>Downloaded CSV</h4>
-              <label class="switch">
+             <!--  <label class="switch">
                    <input type="checkbox" id="togBtn">
 
                   <span class="slider round"></span>
@@ -130,27 +130,230 @@ input:checked + .slider:before {
                       });
                     }
                 });
-              </script>
+              </script> -->
                 <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>CSV Name</th>
                       <th>Download Link</th>
+                      <th>Sean</th>
+                      <th>Bushwick</th>
                    </tr>
                   </thead>
                   <tbody>
-                    <% for (var i = 0; i < data.length; i++) { %>  
+                 
                     <tr>
-                    <td><%= data[i] %></td>
-                    <td><a href="/csv/<%= data[i] %>" download>Download CSV File</a></td>
+                    <td>words.csv</td>
+                    <td>
+                      <a href="/csv/words.csv" download>Download CSV File</a>
+                    </td>
+                    <td> <label class="switch">
+                   <input type="checkbox" id="togBtn1">
+
+                  <span class="slider round"></span>
+              </label>
+              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+              <script type="text/javascript">
+                var switchStatus = false;
+                $("#togBtn1").on('change', function() {
+                  // alert("diksha");
+                   var url_string = window.location.href; 
+                    var urls = new URL(url_string);
+                    var tokens = urls.searchParams.get("tokendata");
+                    if ($(this).is(':checked')) {
+                        switchStatus = $(this).is(':checked');
+                         // alert("HII" + switchStatus);// To verify                     
+                      $.ajax({
+                        type: 'GET',
+                        url: '/Seanwordstatus',
+                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+            
+                    }
+                    else {
+                       switchStatus = $(this).is(':checked');
+                       // alert("HELLO" + switchStatus);// To verify
+                       $.ajax({
+                        type: 'GET',
+                        url: '/Seanwordstatus',
+                        data: {status: switchStatus, tokenval : tokens},   
+                          success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+                    }
+                });
+              </script>
+            </td>
+              <td>
+               <label class="switch">
+                   <input type="checkbox" id="togBtn2">
+
+                  <span class="slider round"></span>
+              </label>
+              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+              <script type="text/javascript">
+                var switchStatus = false;
+                $("#togBtn2").on('change', function() {
+                  // alert("dik2");
+                   var url_string = window.location.href; 
+                    var urls = new URL(url_string);
+                    var tokens = urls.searchParams.get("tokendata");
+                    if ($(this).is(':checked')) {
+                        switchStatus = $(this).is(':checked');
+                        // alert("HII" + switchStatus);// To verify                     
+                      $.ajax({
+                        type: 'GET',
+                        url: '/Bushwickwordstatus',
+                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+            
+                    }
+                    else {
+                       switchStatus = $(this).is(':checked');
+                       // alert("HELLO" + switchStatus);// To verify
+                       $.ajax({
+                        type: 'GET',
+                        url: '/Bushwickwordstatus',
+                        data: {status: switchStatus, tokenval : tokens},   
+                          success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+                    }
+                });
+              </script></td>
                    </tr>
-                      
-                    <% } %>              
+                        <tr>
+                    <td>Black_list.csv</td>
+                    <td><a href="/csv/Black_list.csv" download>Download CSV File</a></td>
+                    <td> <label class="switch">
+                   <input type="checkbox" id="togBtn3">
+
+                  <span class="slider round"></span>
+              </label>
+              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+              <script type="text/javascript">
+                var switchStatus = false;
+                $("#togBtn3").on('change', function() {
+                  // alert("hii");
+                   var url_string = window.location.href; 
+                    var urls = new URL(url_string);
+                    var tokens = urls.searchParams.get("tokendata");
+                    if ($(this).is(':checked')) {
+                        switchStatus = $(this).is(':checked');
+                         // alert("HII" + switchStatus);// To verify                     
+                      $.ajax({
+                        type: 'GET',
+                        url: '/seanblackliststatus',
+                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+            
+                    }
+                    else {
+                       switchStatus = $(this).is(':checked');
+                       // alert("HELLO" + switchStatus);// To verify
+                       $.ajax({
+                        type: 'GET',
+                        url: '/seanblackliststatus',
+                        data: {status: switchStatus, tokenval : tokens},   
+                          success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+                    }
+                });
+              </script></td>
+              <td> <label class="switch">
+                   <input type="checkbox" id="togBtn4">
+
+                  <span class="slider round"></span>
+              </label>
+              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+              <script type="text/javascript">
+                var switchStatus = false;
+                $("#togBtn4").on('change', function() {
+                   var url_string = window.location.href; 
+                    var urls = new URL(url_string);
+                    var tokens = urls.searchParams.get("tokendata");
+                    if ($(this).is(':checked')) {
+                        switchStatus = $(this).is(':checked');
+                        // alert("HII" + switchStatus);// To verify                     
+                      $.ajax({
+                        type: 'GET',
+                        url: '/bushwickBlackStatus',
+                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+            
+                    }
+                    else {
+                       switchStatus = $(this).is(':checked');
+                       // alert("HELLO" + switchStatus);// To verify
+                       $.ajax({
+                        type: 'GET',
+                        url: '/bushwickBlackStatus',
+                        data: {status: switchStatus, tokenval : tokens},   
+                          success:function(data){   
+                           var datakk = JSON.stringify(data);
+                           // alert(datakk);
+                           // alert("Your OTP is : " + data["Otpdata"]);
+                         
+                            // alert(JSON.Stringify(html));
+                          }
+                      });
+                    }
+                });
+              </script>
+            </td>
+                   </tr>
+                  
                   </tbody>
                   
                 </table>
 
                  <h4>Uploaded CSV</h4>
+
+                 <p id="msgdata"></p>
 
                  <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
                   <thead>
@@ -326,57 +529,131 @@ function openFile(func) {
   // });
 
   window.addEventListener("load", function() {
-  
-//  $.get('/csv/words.csv', function(data) {
-// var build = '<table border="1" cellpadding="2" cellspacing="0" style="border-collapse: collapse" width="100%">\n';
-// var head = data.split("\n");
-// for(var i=0;i<1;i++){
-// build += "<tr><th>" + head[i] + "</th></tr>";
-// for(var i=1;i<head.length;i++){
-// build += "<tr><td>" + head[i].split("\n") + "</td></tr>";
-// }
-// }
-// build += "</table>";
-// $('#wrap').append(build);
-// });
-
 
   var url_string = window.location.href; 
   var urls = new URL(url_string);
   var tokens = urls.searchParams.get("tokendata");
+  var msgdata = urls.searchParams.get("msg");
+  // alert(msgdata);
    document.getElementById("HomeLink").href = "/home?tokendata="+tokens;
   document.getElementById("UserLink").href = "/userlist?tokendata="+tokens;
   // document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
    document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
       document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
+      document.getElementById("FlagCallLink").href = "/flaglist?tokendata="+tokens;
+
 
       // $('#urlvalue').val(tokens); 
 
          document.getElementById("urlvalue").value = tokens; 
 
+ $.getJSON( "json/seanWord.json", function( data ) {
 
-$.getJSON( "/json/userdetail.json", function( data ) {
+        // alert("value is" + data.status);
+
+     if(data.status == "true"){
+       // alert("true");
+
+      document.getElementById("togBtn1").checked = true;
+
+     }else {
+       // alert("false");
+
+      document.getElementById("togBtn1").checked = false;
+
+     }
+  
+});
+
+ //////////////////////////////////////////////////////
+
+   $.getJSON( "json/bushwickWord.json", function( data ) {
 
        // alert(data.status);
 
      if(data.status == "true"){
       // alert("true");
 
-      document.getElementById("togBtn").checked = true;
+      document.getElementById("togBtn2").checked = true;
 
      }else {
       // alert("false");
 
-      document.getElementById("togBtn").checked = false;
+      document.getElementById("togBtn2").checked = false;
 
      }
-
-
-
   
 });
 
-// $.getJSON( "/json/blcklistdetail.json", function( data ) {
+   //////////////////////////////////////////////////////
+      
+
+       $.getJSON( "json/seanBlack.json", function( data ) {
+
+       // alert(data.status);
+
+     if(data.status == "true"){
+      // alert("true");
+
+      document.getElementById("togBtn3").checked = true;
+
+     }else {
+      // alert("false");
+
+      document.getElementById("togBtn3").checked = false;
+
+     }
+ 
+});
+
+
+  ///////////////////////////////////////////////////////////
+
+   $.getJSON( "json/bushwikBlack.json", function( data ) {
+
+       // alert(data.status);
+
+     if(data.status == "true"){
+      // alert("true");
+
+      document.getElementById("togBtn4").checked = true;
+
+     }else {
+      // alert("false");
+
+      document.getElementById("togBtn4").checked = false;
+
+     }
+
+});
+ 
+ if(msgdata == null){
+
+  document.getElementById("msgdata").textContent = "";
+
+ }else{
+
+  document.getElementById("msgdata").textContent = "File Uploaded Sucessfully !!";
+
+ }
+
+
+////////////////////////////////////////////////////////////
+
+// const url = "https://apis.tradetipsapp.com/opt/sector-sentiment-files";
+// fetch(url, {
+//   method: "GET",
+//   headers: {
+//           Authorization: 'Bearer ' + tokens,
+//         },
+// })
+//   .then(resp => resp.json())
+//     .then(function(data) {
+//        var datak = JSON.stringify(data);
+//        alert(datak)
+//      });
+
+// $.getJSON( "json/blcklistdetail.json", function( data ) {
 
 //     // alert(data.name);
 

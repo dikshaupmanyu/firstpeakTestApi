@@ -1,0 +1,348 @@
+           <%- include partials/header %>
+
+
+       
+        <div class="container-fluid">
+
+
+      <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                     <!--  <th>Id</th>
+                      <th>Reason</th> -->
+                      <th>Username</th>
+                      <th>Comment</th>
+                      <th>Flag Status</th>
+                      <th>Date</th>
+                      <!-- <th>Action</th> -->
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                 <!--  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                    </tr>
+                  </tfoot> -->
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- End of Main Content -->
+
+                 <%- include partials/footer %>
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+ <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+  
+
+  <script type="text/javascript">
+
+    window.history.forward(); 
+        function noBack() { 
+            window.history.forward(); 
+        } 
+
+
+window.addEventListener("load", function() {
+
+   // alert(window.location.href);
+
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+  // alert(tokens);
+
+const url = "http://3.93.137.122:6080/api/tipCommentFlag/getAllFlaggedComment";
+fetch(url, {
+  method: "POST",
+  headers: {
+          Authorization: 'Bearer ' + tokens,
+        },
+})
+  .then(resp => resp.json())
+    .then(function(data) {
+           $('#dataTables').dataTable( {
+            "aaData": data, 
+            "columns": [
+                { "data": "userName"},
+                { "data": "commentDetails" },
+                {
+                "data":   "isFlag",
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {
+                        return '<input id="' + row.id + '" type="checkbox" class="editor-active">';
+                    }
+                    return data;
+                  }
+                },
+                { 
+                "data": "createdOn",
+                 "name":"date",
+                 "visible":true,
+                 "title":"Date Created",
+                 "render": function(data, type, full, meta){
+                  if(type == "display"){
+                          var date = new Date(data);
+                          var options = {year: "numeric", month: "long", day: "numeric"};
+
+                          return date.toLocaleDateString('en-US', options);
+                  }
+
+                  return data;
+                }
+               },
+               // { 'data': null,
+               //   'render': function (data, type, row) {
+
+               //    if ( type === 'display' ) {
+               //         return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+               //    }
+               //  return data;
+               //  }  
+               // },  
+               { "data": "status",
+                 'render': function (data, type, row) {
+
+                  if ( type === 'display' ) {
+
+                      if(data == "approved"){
+                       return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
+                      }else{
+                        return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
+                      }
+                  }
+                return data;
+                }  
+               },               
+              ],
+            "deferRender": true,
+            rowCallback: function ( row, data ) {
+            // Set the checked state of the checkbox in the table
+            $('input.editor-active', row).prop( 'checked', data.isFlag == true );
+        }
+
+        });
+
+    // $('#dataTables').on('click', 'button.deleteButton', function () {
+
+    //   var id = $(this).attr('id');
+    //   // alert(id);
+
+    //   var url ;
+    //   var result = confirm("Are you sure you want to delete?");
+    //   if(result){
+    //   var formData = {id:id};
+    //   const url = "http://3.93.137.122:6080/api/tipCommentFlag/deleteTipCommentFlag";
+    //   $.ajax({
+    //     url : url,
+    //     type: "POST",
+    //     headers: {
+    //          Authorization: 'Bearer ' + tokens,
+    //     },
+    //     data : formData,
+    //     success: function(data, textStatus, jqXHR)
+    //     {
+    //         //data - response from server
+    //         var datak = JSON.stringify(data);
+    //         var dataResultp = JSON.parse(datak); 
+    //         // alert(dataResultp);
+    //         alert("Delete Sucessfully !!");
+    //         window.location.reload();
+
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown)
+    //     {
+    //        alert("Not updated !!");
+    //     }
+
+    //    });
+      
+
+    //   } else {
+
+    //       window.location.reload();
+
+    //   }
+
+    //   });
+
+    $('#dataTables').on('click', 'input.editor-active', function () {
+
+    var id = $(this).attr('id');
+    // alert(id);
+    var table = $('#dataTables').DataTable();
+    var row = table.row(this.closest('tr')).data();
+    var result = confirm("Are you sure you want to unflag the comment?");
+    if(result){
+    var ids = row["id"];
+    var reason = row["flagReason"];
+    var formData = {id:ids,flagReason:reason};
+       $.ajax({
+        url : "http://3.93.137.122:6080/api/tipCommentFlag/UnFlagTipCommentFlag",
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            alert("Comment Unflag Sucessfully !!");
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+    });
+    } else {
+
+       window.location.reload();
+
+    }
+
+   });
+
+    $('#dataTables').on('click', 'button.approveStatus', function () {
+
+    var id = $(this).attr('id');
+    // alert(id);
+    var table = $('#dataTables').DataTable();
+    var row = table.row(this.closest('tr')).data();
+    var result = confirm("Are you sure you want to update the status?");
+    if(result){
+    var formData;
+    var commentId = row["commentId"];
+    var userId = row["userId"];
+    var commentDetails = row["commentDetails"];
+    var status = row["status"];
+        if(status == "approved"){
+            formData = {commentId:commentId,userId:userId,commentDetails:commentDetails,status:"pending"};
+        }else{
+            formData = {commentId:commentId,userId:userId,commentDetails:commentDetails,status:"approved"};
+        }
+       
+       $.ajax({
+        url : "http://3.93.137.122:6080/api/comment/modifyCommentById",
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            alert("Comment status updated Sucessfully !!");
+            window.location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+    });
+    } else {
+
+       window.location.reload();
+
+    }
+
+   });
+  })
+ 
+  .catch(function(error) {
+    console.log(error);
+  });  
+
+});
+ </script>
+ <script type="text/javascript">
+  window.addEventListener("load", function() {
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+
+  // alert(tokens);
+   document.getElementById("HomeLink").href = "/home?tokendata="+tokens;
+  document.getElementById("UserLink").href = "/userlist?tokendata="+tokens;
+  // document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
+   document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
+
+  document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
+  document.getElementById("FlagCallLink").href = "/flaglist?tokendata="+tokens;
+
+
+    
+});
+</script>
+
+</body>
+
+</html>

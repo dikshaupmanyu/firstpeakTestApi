@@ -24,11 +24,13 @@
                       <th>Email</th>
                       <th>Mentor</th>
                       <th>Date</th>
-<!--                       <th>Action</th>
- --><!--                       <th>Authenticate by Email</th>
- -->                    </tr>
+                      <th>Image</th>
+                      <th>Status</th>
+                      <!-- <th>Action</th> -->
+ <!--                       <th>Authenticate by Email</th>
+                    </tr>
                   </thead>
-                 <!--  <tfoot>
+                  <tfoot>
                     <tr>
                       <th>Name</th>
                       <th>Position</th>
@@ -140,6 +142,8 @@ fetch(url, {
         var len = dataResult.length;
            $('#dataTables').dataTable( {
             "aaData": data,   
+            "lengthMenu": [ 500, 1000, 2000, 3000, 4000, 5000 ],
+            "pageLength": 500,
             "columns": [
                 // { "data": "id" },
                 { "data": "userName" },
@@ -194,7 +198,56 @@ fetch(url, {
               //       $("#dateval"+row.id).html(original_date);
               //           return '<span id="dateval'+row.id+'"></span>';
               // },
-            }
+            },
+            {
+                "data":   "image",
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {
+                        return '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal'+row.id+'">Image</button><div class="modal fade" id="myModal'+row.id+'" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Image</h4></div><div class="modal-body"><p>'+row.id+' '+row.userName+'</p><img src="" id="dishPhoto"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                       
+                    }
+                    return data;
+                },
+
+              },
+              {
+                "data":   "status",
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {
+
+                       if(data == null){
+
+                        return '<input type="button" class="updateStatusdata" value="UnBlock">';
+
+                        //  return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=1" id="userStatus">UnBlock</a>';
+
+                        }else if(data == "Enable") {
+
+                           return '<input type="button" class="updateStatusdata" value="UnBlock">';
+                        //   return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=1" id="userStatus">UnBlock</a>';
+
+                        }else {
+                        //   return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=0" id="userStatus">Block</a>';
+                         return '<input type="button" class="updateStatusdata" value="Block">';
+
+                        }
+                       
+                    }
+                    return data;
+                },
+
+              },
+            // {
+            //     "data":   "id",
+            //     render: function ( data, type, row ) {
+            //         if ( type === 'display' ) {
+            //             return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'">Edit</a>';
+                       
+            //         }
+            //         return data;
+            //     },
+
+            //   },
             ],
             rowCallback: function ( row, data ) {
             // Set the checked state of the checkbox in the table
@@ -209,10 +262,11 @@ fetch(url, {
 
 
    // $('#dataTables').on('click', 'tbody td:not(:first-child)', function () {
-   $('#dataTables').on('click', 'tbody td:eq(2)', function () {
+   $('#dataTables').on('click', 'input.editor-active', function () {
 
     // alert(tokens);
     // alert("hii");
+    var id = $(this).attr('id');
     var table = $('#dataTables').DataTable();
     var row = table.row(this.closest('tr')).data();
     var url ;
@@ -243,6 +297,7 @@ fetch(url, {
             var datak = JSON.stringify(data);
             var dataResultp = JSON.parse(datak); 
             alert("User updated Sucessfully !!");
+            window.location.reload();
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -255,13 +310,203 @@ fetch(url, {
        window.location.reload();
 
     }
-    
-
-          // $('#dataTables').DataTable().ajax.reload();
+           // $('#dataTables').DataTable().ajax.reload();
 
 
    });
 
+   $('#dataTables').on('click', 'input.updateStatusdata', function () {
+
+    var id = $(this).attr('id');
+    var table = $('#dataTables').DataTable();
+    var row = table.row(this.closest('tr')).data();
+    var url ;
+    var formData;
+    var result = confirm("Are you sure you want to update?");
+    if(result){
+        // Delete logic goes here
+    var userdata = row["userName"];
+    var useremail = row["email"];
+    var userpass = row["password"];
+    var userId = row["id"];
+    var usertypeof = row["userType"];
+    var statusdata = row["status"];
+     // alert(statusdata);
+    if(statusdata == "Block") {
+          url = "http://3.93.137.122:6080/api/appUser/appUserUpdateById";
+         formData = {appUserName:userdata,appuserid:userId,userName:userdata,email:useremail,password:userpass,status:"Enable",firstName:"",middleName:"",lastName:"",gender:"",imageDetails:"",userLocation:"",userType:usertypeof,saved_stocks:"",savedMentors:"",description:""};
+      } else if(statusdata == "Enable") {
+          url = "http://3.93.137.122:6080/api/appUser/appUserUpdateById";
+          formData = {appUserName:userdata,appuserid:userId,userName:userdata,email:useremail,password:userpass,status:"Block",firstName:"",middleName:"",lastName:"",gender:"",imageDetails:"",userLocation:"",userType:usertypeof,saved_stocks:"",savedMentors:"",description:""};
+      } else if(statusdata == null) {
+          url = "http://3.93.137.122:6080/api/appUser/appUserUpdateById";
+          formData = {appUserName:userdata,appuserid:userId,userName:userdata,email:useremail,password:userpass,status:"Enable",firstName:"",middleName:"",lastName:"",gender:"",imageDetails:"",userLocation:"",userType:usertypeof,saved_stocks:"",savedMentors:"",description:""};
+      }
+       $.ajax({
+        url : url,
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            alert("User updated Sucessfully !!");
+            window.location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+    });
+    } else {
+
+       window.location.reload();
+
+    }
+
+
+   });
+
+
+
+    $('#dataTables').on('click', 'tbody td:eq(4)', function () {
+
+    // alert(tokens);
+    // alert("hii");
+    var btoa;
+    var table = $('#dataTables').DataTable();
+    var row = table.row(this.closest('tr')).data();
+    var userdata = row["userName"];
+    var formData = {appUserName:userdata};
+    // var mentordata = row["isMentor"];
+    // alert(mentordata);
+       $.ajax({
+        url : "http://3.93.137.122:6080/api/appUser/getUserImageByUserName",
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        // dataType: 'image/jpg',
+        // dataType: "html",
+        data : formData,
+        success: function(data)
+        {
+          
+
+          // if (data != null) {
+          //       var results = jQuery.parseJSON(data);
+          //       for (var key in results) {
+          //           //the results is a base64 string.  convert it to an image and assign as 'src'
+          //           document.getElementById("dishPhoto").src = "data:image/png;base64," + results[key];
+          //       }
+          //   }
+
+           // $.ajax({
+           //              type: 'GET',
+           //              url: '/Userimage',
+           //              data: data,
+           //              success:function(result){   
+           //                 alert(result);
+                         
+           //                }
+           //            });
+             // alert(data);
+
+
+
+            
+
+             var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/\r\n/g,"\n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}};
+
+
+
+
+             var encodedString = Base64.encode(data);
+             alert(encodedString);
+
+            // var encodedString = window.btoa(data);
+
+            // var datatt = Base64.encode(encodedString);
+
+            // alert('<img src="data:image/jpeg;base64,"'+ encodedString +'>');
+
+
+
+            var img = document.getElementById('dishPhoto');
+                img.src = 'data:image/png;base64,'+encodedString;
+
+
+
+            //  function arrayBufferToBase64(data) {
+            //     let binary = '';
+            //     let bytes = new Uint8Array(data);
+            //     let len = bytes.byteLength;
+            //     for (let i = 0; i < len; i++) {
+            //         binary += String.fromCharCode(bytes[i]);
+            //     }
+            //     return Base64(binary);
+            //     alert(Base64(binary));
+            // }
+
+         
+              
+        //       // $('#target').html(data);
+
+        // // var testJpg = data;
+        // // document.getElementById("myimage").src = testJpg;
+
+
+        // const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+        //     const byteCharacters = atob(b64Data);
+        //     const byteArrays = [];
+
+        //     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        //       const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        //       const byteNumbers = new Array(slice.length);
+        //       for (let i = 0; i < slice.length; i++) {
+        //         byteNumbers[i] = slice.charCodeAt(i);
+        //       }
+
+        //       const byteArray = new Uint8Array(byteNumbers);
+        //       byteArrays.push(byteArray);
+        //     }
+
+        //     const blob = new Blob(byteArrays, {type: contentType});
+        //     return blob;
+        //   }
+
+        //   const contentType = 'image/png';
+        //   const b64Data = data;
+
+        //   const blob = b64toBlob(b64Data, contentType);
+        //   const blobUrl = URL.createObjectURL(blob);
+
+        //   // const img = document.createElement('img');
+        //   // img.src = blobUrl;
+        //   // document.body.appendChild(img);
+        //    var img = document.getElementById('dishPhoto');
+        //         img.src = blobUrl;
+
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+    });
+
+   });
+
+
+
+ 
 
 
 // function logout() {
@@ -286,6 +531,9 @@ fetch(url, {
   document.getElementById("UserLink").href = "/userlist?tokendata="+tokens;
   // document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
    document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
+     document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
+    document.getElementById("FlagCallLink").href = "/flaglist?tokendata="+tokens;
+
     
 });
 </script>

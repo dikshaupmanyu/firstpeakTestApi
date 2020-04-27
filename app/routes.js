@@ -12,6 +12,32 @@ module.exports = function(app, passport) {
     res.render('commentlist.ejs');
   });
 
+  app.get('/updateData', function(req, res) {
+
+    var status = req.query.status;
+    var userid = req.query.id;
+    var tokenval = req.query.tokendata;
+
+    var fs = require("fs");
+       let rawdata = fs.readFileSync('public/json/userdetail.json');
+       let userdetail = JSON.parse(rawdata);
+    
+        var userdetailt = { status : req.query.status};
+
+        let data = JSON.stringify(userdetailt, null, 2);
+
+        fs.writeFile('public/json/userdetail.json', data, (err) => {
+             if (err) throw err;
+             console.log(data);
+        });            
+        
+       return res.redirect("/userlist?tokendata="+tokenstatus);
+
+
+
+    res.render('editUser.ejs');
+  });
+
 
   app.get('/csvlist', function(req, res) {
 
@@ -51,6 +77,32 @@ module.exports = function(app, passport) {
         
          // return res.redirect("/csvlist?tokendata="+tokenstatus);
 
+
+  });
+
+  app.get('/Userimage', function (req, res , done) {
+   
+
+   // console.log(res);
+
+   var btoa = require("btoa");
+   // var Base64 = require('js-base64').Base64;
+
+   var finaldata = req.query;
+
+   var Base64 = require('base64-string').Base64;
+// other code
+    var enc = new Base64();
+     var b64 = enc.urlEncode(req.query);
+
+    console.log(Base64(finaldata));
+
+    // res.send(200);
+     res.on("data", function(chunk) {
+       //this is body
+       // console.log(chunk);
+  });
+    
 
   });
 

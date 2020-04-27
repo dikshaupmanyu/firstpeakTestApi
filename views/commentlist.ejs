@@ -62,7 +62,7 @@
                       <th>Comments</th>
                       <th>Tip Id</th>
                       <th>Status</th>
-                      <th>Action</th>
+                     <!--  <th>Action</th> -->
  <!--                       <th>Authenticate by Email</th>
                     </tr>
                   </thead>
@@ -76,8 +76,8 @@
                       <th>Salary</th>
                     </tr>
                   </tfoot> -->
-                 <!--  <tbody id="showData">
-                  </tbody> -->
+                  <tbody>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -227,11 +227,11 @@ $('#butSaveData').on('click', function() {
                 { "data": "commentDetails" },
                 { "data": "tipId" },
                 { "data": "status" },
-                { 'data': null,
-                 'render': function (data, type, row) {
-                       return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
-               }
-              },               
+              //   { 'data': null,
+              //    'render': function (data, type, row) {
+              //          return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+              //  }
+              // },               
             ],
             "deferRender": true,
 
@@ -318,7 +318,7 @@ $('#butSaveData').on('click', function() {
   // document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
    document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
    document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
-
+ document.getElementById("FlagCallLink").href = "/flaglist?tokendata="+tokens;
     
 });
 </script>

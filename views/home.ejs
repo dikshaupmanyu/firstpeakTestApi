@@ -31,6 +31,23 @@
               </div>
             </div>
 
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <a id="FlagCallLink"><div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Flag Comment</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="toatlflagcomnt"></span></div>
+                    </div></a>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
             <!-- Earnings (Monthly) Card Example -->
            <!--  <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
@@ -157,6 +174,7 @@ window.addEventListener("load", function() {
   var url_string = window.location.href; 
   var urls = new URL(url_string);
   var tokens = urls.searchParams.get("tokendata");
+  // alert(tokens);
 
 const url = "http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsers";
 fetch(url, {
@@ -171,6 +189,33 @@ fetch(url, {
        var dataResult = JSON.parse(datak); 
        // alert(dataResult);
         $('#toatluser').html(dataResult.length);
+
+
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+  const url1 = "http://3.93.137.122:6080/api/tipCommentFlag/getAllFlaggedComment";
+fetch(url1, {
+  method: "POST",
+  headers: {
+          Authorization: 'Bearer ' + tokens,
+        },
+})
+  .then(resp => resp.json())
+    .then(function(data) {
+       var dataki = JSON.stringify(data);
+       var dataResulti = JSON.parse(dataki); 
+       // var fileLicenses = [];  
+         // for(var i=0, len=dataResulti.length; i<len; i++){
+         //  alert(dataResulti[i].isFlag);
+
+           
+         // }
+         var count = dataResulti.filter(function(s) { return s.isFlag; }).length;
+       
+        $('#toatlflagcomnt').html(count);
 
 
   })
@@ -229,7 +274,7 @@ function logout() {
    document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
    document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
 
-   
+  document.getElementById("FlagCallLink").href = "/flaglist?tokendata="+tokens;
     
 });
 </script>

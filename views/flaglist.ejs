@@ -21,7 +21,7 @@
                       <th>Flag Status</th>
                       <th>Date</th>
                       <!-- <th>Action</th> -->
-                      <th>Status</th>
+                     <!--  <th>Status</th> -->
                     </tr>
                   </thead>
                  <!--  <tfoot>
@@ -163,20 +163,20 @@ fetch(url, {
                //  return data;
                //  }  
                // },  
-               { "data": "status",
-                 'render': function (data, type, row) {
+               // { "data": "status",
+               //   'render': function (data, type, row) {
 
-                  if ( type === 'display' ) {
+               //    if ( type === 'display' ) {
 
-                      if(data == "approved"){
-                       return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
-                      }else{
-                        return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
-                      }
-                  }
-                return data;
-                }  
-               },               
+               //        if(data == "approved"){
+               //         return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
+               //        }else{
+               //          return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
+               //        }
+               //    }
+               //  return data;
+               //  }  
+               // },               
               ],
             "deferRender": true,
             rowCallback: function ( row, data ) {
@@ -268,53 +268,53 @@ fetch(url, {
 
    });
 
-    $('#dataTables').on('click', 'button.approveStatus', function () {
+   //  $('#dataTables').on('click', 'button.approveStatus', function () {
 
-    var id = $(this).attr('id');
-    // alert(id);
-    var table = $('#dataTables').DataTable();
-    var row = table.row(this.closest('tr')).data();
-    var result = confirm("Are you sure you want to update the status?");
-    if(result){
-    var formData;
-    var commentId = row["commentId"];
-    var userId = row["userId"];
-    var commentDetails = row["commentDetails"];
-    var status = row["status"];
-        if(status == "approved"){
-            formData = {commentId:commentId,userId:userId,commentDetails:commentDetails,status:"pending"};
-        }else{
-            formData = {commentId:commentId,userId:userId,commentDetails:commentDetails,status:"approved"};
-        }
+   //  var id = $(this).attr('id');
+   //  // alert(id);
+   //  var table = $('#dataTables').DataTable();
+   //  var row = table.row(this.closest('tr')).data();
+   //  var result = confirm("Are you sure you want to update the status?");
+   //  if(result){
+   //  var formData;
+   //  var commentId = row["commentId"];
+   //  var userId = row["userId"];
+   //  var commentDetails = row["commentDetails"];
+   //  var status = row["status"];
+   //      if(status == "approved"){
+   //          formData = {commentId:commentId,userId:userId,commentDetails:commentDetails,status:"pending"};
+   //      }else{
+   //          formData = {commentId:commentId,userId:userId,commentDetails:commentDetails,status:"approved"};
+   //      }
        
-       $.ajax({
-        url : "http://3.93.137.122:6080/api/comment/modifyCommentById",
-        type: "POST",
-        headers: {
-             Authorization: 'Bearer ' + tokens,
-        },
-        data : formData,
-        success: function(data, textStatus, jqXHR)
-        {
-            //data - response from server
-            var datak = JSON.stringify(data);
-            var dataResultp = JSON.parse(datak); 
-            alert("Comment status updated Sucessfully !!");
-            window.location.reload();
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-           alert("Not updated !!");
-        }
+   //     $.ajax({
+   //      url : "http://3.93.137.122:6080/api/comment/modifyCommentById",
+   //      type: "POST",
+   //      headers: {
+   //           Authorization: 'Bearer ' + tokens,
+   //      },
+   //      data : formData,
+   //      success: function(data, textStatus, jqXHR)
+   //      {
+   //          //data - response from server
+   //          var datak = JSON.stringify(data);
+   //          var dataResultp = JSON.parse(datak); 
+   //          alert("Comment status updated Sucessfully !!");
+   //          window.location.reload();
+   //      },
+   //      error: function (jqXHR, textStatus, errorThrown)
+   //      {
+   //         alert("Not updated !!");
+   //      }
 
-    });
-    } else {
+   //  });
+   //  } else {
 
-       window.location.reload();
+   //     window.location.reload();
 
-    }
+   //  }
 
-   });
+   // });
   })
  
   .catch(function(error) {

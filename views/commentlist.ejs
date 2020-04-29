@@ -194,13 +194,16 @@ fetch(url, {
 $('#butSaveData').on('click', function() {
     var UserSelect = $('#sel_user').val();
     // alert(UserSelect);
-    var Offset = "5";
-    var Limit = "10";
-    var formdata = {userName : UserSelect,offset : Offset,limit : Limit};
-    if(UserSelect!="" && Offset!="" && Limit!=""){
+    // var Offset = "5";
+    // var Limit = "10";
+    var formdata = {userName : UserSelect};
+
+    // var formdata = {userName : UserSelect,offset : Offset,limit : Limit};
+    // if(UserSelect!="" && Offset!="" && Limit!=""){
+    if(UserSelect!=""){
       $.ajax({
         type: 'POST',
-        url: 'http://3.93.137.122:6080/api/comment/getAllCommentsWithPagination',
+        url: 'http://3.93.137.122:6080/api/comment/getAllComments',
         headers: {
           Authorization: 'Bearer '+ tokens
         },
@@ -226,7 +229,20 @@ $('#butSaveData').on('click', function() {
                 { "data": "id" },
                 { "data": "commentDetails" },
                 { "data": "tipId" },
-                { "data": "status" },
+                { "data": "status",
+                 'render': function (data, type, row) {
+
+                  if ( type === 'display' ) {
+
+                      if(data == "approved"){
+                       return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
+                      }else{
+                        return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
+                      }
+                  }
+                return data;
+                }  
+               },  
               //   { 'data': null,
               //    'render': function (data, type, row) {
               //          return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
@@ -239,48 +255,50 @@ $('#butSaveData').on('click', function() {
         });
 
 
-    $('#dataTables').on('click', 'button.deleteButton', function () {
+   
 
-      var id = $(this).attr('id');
-      // alert(id);
+    // $('#dataTables').on('click', 'button.deleteButton', function () {
 
-      var url ;
-      var result = confirm("Are you sure you want to delete?");
-      if(result){
-      var formData = {commentId:id};
-      const url = "http://3.93.137.122:6080/api/comment/deleteCommentByCommentId";
-      $.ajax({
-        url : url,
-        type: "POST",
-        headers: {
-             Authorization: 'Bearer ' + tokens,
-        },
-        data : formData,
-        success: function(data, textStatus, jqXHR)
-        {
-            //data - response from server
-            var datak = JSON.stringify(data);
-            var dataResultp = JSON.parse(datak); 
-            // alert(dataResultp);
-            alert("Delete Sucessfully !!");
-            window.location.reload();
+    //   var id = $(this).attr('id');
+    //   // alert(id);
 
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-           alert("Not updated !!");
-        }
+    //   var url ;
+    //   var result = confirm("Are you sure you want to delete?");
+    //   if(result){
+    //   var formData = {commentId:id};
+    //   const url = "http://3.93.137.122:6080/api/comment/deleteCommentByCommentId";
+    //   $.ajax({
+    //     url : url,
+    //     type: "POST",
+    //     headers: {
+    //          Authorization: 'Bearer ' + tokens,
+    //     },
+    //     data : formData,
+    //     success: function(data, textStatus, jqXHR)
+    //     {
+    //         //data - response from server
+    //         var datak = JSON.stringify(data);
+    //         var dataResultp = JSON.parse(datak); 
+    //         // alert(dataResultp);
+    //         alert("Delete Sucessfully !!");
+    //         window.location.reload();
 
-       });
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown)
+    //     {
+    //        alert("Not updated !!");
+    //     }
+
+    //    });
       
 
-      } else {
+    //   } else {
 
-          window.location.reload();
+    //       window.location.reload();
 
-      }
+    //   }
 
-      });
+    //   });
 
         },
 
@@ -303,6 +321,62 @@ $('#butSaveData').on('click', function() {
   
   
   });
+
+  $('#dataTables').on('click', 'button.approveStatus', function () {
+
+    var ids = $(this).attr('id');
+    // alert(ids);
+    var table = $('#dataTables').DataTable();
+    var row = table.row(this.closest('tr')).data();
+    var result = confirm("Are you sure you want to update the status?");
+    if(result){
+    var formData;
+    var id = ids;
+    // alert(id);
+    // var userId = row["userId"];
+    // var commentDetails = row["commentDetails"];
+    // alert(commentDetails);
+    var status = row["status"];
+    // alert(status);
+    var url;
+    if(status == "approved"){
+        url = "http://3.93.137.122:6080/api/comment/modifyCommentStatusById";
+        formData = {commentId:id,status:"pending"};
+    }else{
+        url = "http://3.93.137.122:6080/api/comment/modifyCommentStatusById";
+        formData = {commentId:id,status:"approved"};
+     }
+       
+       $.ajax({
+        url : url,
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            // alert(datak);
+            var dataResultp = JSON.parse(datak); 
+            alert("Comment status updated Sucessfully !!");
+            window.location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+    });
+    } else {
+
+       window.location.reload();
+
+    }
+
+   });
+
 
 });
    

@@ -166,7 +166,7 @@ input:checked + .slider:before {
                          // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/Seanwordstatus',
+                        url: '/Seanwordstatus',
                         data: {status: switchStatus , tokenval : tokens},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -182,7 +182,7 @@ input:checked + .slider:before {
                        // alert("HELLO" + switchStatus);// To verify
                        $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/Seanwordstatus',
+                        url: '/Seanwordstatus',
                         data: {status: switchStatus, tokenval : tokens},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
@@ -216,7 +216,7 @@ input:checked + .slider:before {
                         // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/Bushwickwordstatus',
+                        url: '/Bushwickwordstatus',
                         data: {status: switchStatus , tokenval : tokens},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -232,7 +232,7 @@ input:checked + .slider:before {
                        // alert("HELLO" + switchStatus);// To verify
                        $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/Bushwickwordstatus',
+                        url: '/Bushwickwordstatus',
                         data: {status: switchStatus, tokenval : tokens},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
@@ -268,7 +268,7 @@ input:checked + .slider:before {
                          // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/seanblackliststatus',
+                        url: '/seanblackliststatus',
                         data: {status: switchStatus , tokenval : tokens},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -284,7 +284,7 @@ input:checked + .slider:before {
                        // alert("HELLO" + switchStatus);// To verify
                        $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/seanblackliststatus',
+                        url: '/seanblackliststatus',
                         data: {status: switchStatus, tokenval : tokens},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
@@ -315,7 +315,7 @@ input:checked + .slider:before {
                         // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/bushwickBlackStatus',
+                        url: '/bushwickBlackStatus',
                         data: {status: switchStatus , tokenval : tokens},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -331,7 +331,7 @@ input:checked + .slider:before {
                        // alert("HELLO" + switchStatus);// To verify
                        $.ajax({
                         type: 'GET',
-                        url: 'http://ec2-18-234-203-190.compute-1.amazonaws.com:5555/bushwickBlackStatus',
+                        url: '/bushwickBlackStatus',
                         data: {status: switchStatus, tokenval : tokens},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);

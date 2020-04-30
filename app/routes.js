@@ -19,14 +19,14 @@ module.exports = function(app, passport) {
     var tokenval = req.query.tokendata;
 
     var fs = require("fs");
-       let rawdata = fs.readFileSync('/json/userdetail.json');
+       let rawdata = fs.readFileSync('public/json/userdetail.json');
        let userdetail = JSON.parse(rawdata);
     
         var userdetailt = { status : req.query.status};
 
         let data = JSON.stringify(userdetailt, null, 2);
 
-        fs.writeFile('/json/userdetail.json', data, (err) => {
+        fs.writeFile('public/json/userdetail.json', data, (err) => {
              if (err) throw err;
              console.log(data);
         });            
@@ -61,7 +61,7 @@ module.exports = function(app, passport) {
     var statusdata = req.query.status;
     // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
-       let rawdata = fs.readFileSync('/json/bushwickWord.json');
+       let rawdata = fs.readFileSync('public/json/bushwickWord.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
         // console.log(userdetail);  
@@ -70,7 +70,7 @@ module.exports = function(app, passport) {
 
         let data = JSON.stringify(userdetailt, null, 2);
 
-        fs.writeFile('/json/bushwickWord.json', data, (err) => {
+        fs.writeFile('public/json/bushwickWord.json', data, (err) => {
              if (err) throw err;
              console.log(data);
         });            
@@ -113,7 +113,7 @@ module.exports = function(app, passport) {
     var statusdata = req.query.status;
     // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
-       let rawdata = fs.readFileSync('/json/seanWord.json');
+       let rawdata = fs.readFileSync('public/json/seanWord.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
         // console.log(userdetail);  
@@ -122,7 +122,7 @@ module.exports = function(app, passport) {
 
         let data = JSON.stringify(userdetailt, null, 2);
 
-        fs.writeFile('/json/seanWord.json', data, (err) => {
+        fs.writeFile('public/json/seanWord.json', data, (err) => {
              if (err) throw err;
              console.log(data);
         });            
@@ -138,7 +138,7 @@ module.exports = function(app, passport) {
     var statusdata = req.query.status;
     // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
-       let rawdata = fs.readFileSync('/json/seanBlack.json');
+       let rawdata = fs.readFileSync('public/json/seanBlack.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
         // console.log(userdetail);  
@@ -147,7 +147,7 @@ module.exports = function(app, passport) {
 
         let data = JSON.stringify(userdetailt, null, 2);
 
-        fs.writeFile('/json/seanBlack.json', data, (err) => {
+        fs.writeFile('public/json/seanBlack.json', data, (err) => {
              if (err) throw err;
              console.log(data);
         });            
@@ -164,7 +164,7 @@ module.exports = function(app, passport) {
     var statusdata = req.query.status;
     // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
-       let rawdata = fs.readFileSync('/json/bushwikBlack.json');
+       let rawdata = fs.readFileSync('public/json/bushwikBlack.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
         // console.log(userdetail);  
@@ -173,7 +173,7 @@ module.exports = function(app, passport) {
 
         let data = JSON.stringify(userdetailt, null, 2);
 
-        fs.writeFile('/json/bushwikBlack.json', data, (err) => {
+        fs.writeFile('public/json/bushwikBlack.json', data, (err) => {
              if (err) throw err;
              console.log(data);
         });            
@@ -7083,7 +7083,7 @@ console.log(_id);
 
              var string = encodeURIComponent('something that would break');
 
-              // let rawdata = fs.readFileSync('/json/userdetail.json');
+              // let rawdata = fs.readFileSync('public/json/userdetail.json');
               // let userdetail = JSON.parse(rawdata);
               // // let userdetailNew = JSON.parse(userdetail);
               // console.log(userdetail);  
@@ -7092,7 +7092,7 @@ console.log(_id);
 
               // let data = JSON.stringify(userdetailt, null, 2);
 
-              // fs.writeFile('/json/userdetail.json', data, (err) => {
+              // fs.writeFile('public/json/userdetail.json', data, (err) => {
               //     if (err) throw err;
               //     console.log('Data written to file');
               // });
@@ -7134,7 +7134,7 @@ console.log(_id);
         } else {
               var string = encodeURIComponent('something that would break');
 
-              // let rawdata = fs.readFileSync('public/json/userdetail.json');
+              // let rawdata = fs.readFileSync('publicpublic/json/userdetail.json');
               // let userdetail = JSON.parse(rawdata);
               // // let userdetailNew = JSON.parse(userdetail);
               // console.log(userdetail);  
@@ -7143,7 +7143,7 @@ console.log(_id);
 
               // let data = JSON.stringify(userdetailt, null, 2);
 
-              // fs.writeFile('public/json/blcklistdetail.json', data, (err) => {
+              // fs.writeFile('publicpublic/json/blcklistdetail.json', data, (err) => {
               //     if (err) throw err;
               //     console.log('Data written to file');
               // });

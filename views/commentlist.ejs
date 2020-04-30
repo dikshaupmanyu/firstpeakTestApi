@@ -55,14 +55,20 @@
 
             <div class="card-body">
               <div class="table-responsive">
+
+              <input type="button" class="btn btn-primary" id="btn_" value="Delete All Comment" />
+
+                <br>
+
                 <table class="table table-bordered" id="dataTables" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Id</th>
+                      <!-- <th>Id</th> -->
+                      <th></th>
                       <th>Comments</th>
-                      <th>Tip Id</th>
+                      <th>Username</th>
                       <th>Status</th>
-                     <!--  <th>Action</th> -->
+                      <th>Action</th>
  <!--                       <th>Authenticate by Email</th>
                     </tr>
                   </thead>
@@ -164,6 +170,59 @@ window.addEventListener("load", function() {
   var urls = new URL(url_string);
   var tokens = urls.searchParams.get("tokendata");
 
+
+  const urlk = "http://3.93.137.122:6080/api/comment/getAllComments";
+fetch(urlk, {
+  method: "POST",
+  headers: {
+          Authorization: 'Bearer ' + tokens,
+        },
+})
+  .then(resp => resp.json())
+    .then(function(data) {
+           $('#dataTables').dataTable( {
+            "aaData": data, 
+            "columns": [
+                // { "data": "id" },
+                { "data" : null ,
+                  'render': function (data, type, row) {
+                       // return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+
+                       return '<input type="checkbox" id="' + row.id + '" value="' + row.id + '" name="letter[]">';
+                }
+                },
+                { "data": "commentDetails" },
+                { "data": "appUser.userName" },
+                { "data": "status",
+                 'render': function (data, type, row) {
+
+                  if ( type === 'display' ) {
+
+                      if(data == "approved"){
+                       return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
+                      }else{
+                        return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
+                      }
+                  }
+                return data;
+                }  
+               },  
+                { 'data': null,
+                 'render': function (data, type, row) {
+                       return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+               }
+              },               
+            ],
+            "deferRender": true,
+            rowCallback: function ( row, data ) {
+            // Set the checked state of the checkbox in the table
+            // $('input.editor-active', row).prop( 'checked', data.isFlag == true );
+        }
+
+        });
+
+      });
+
  
 const url = "http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsers";
 fetch(url, {
@@ -226,9 +285,9 @@ $('#butSaveData').on('click', function() {
            $('#dataTables').dataTable( {
             "aaData": data,   
             "columns": [
-                { "data": "id" },
+                // { "data": "id" },
                 { "data": "commentDetails" },
-                { "data": "tipId" },
+                { "data": "appUser.userName" },
                 { "data": "status",
                  'render': function (data, type, row) {
 
@@ -243,11 +302,11 @@ $('#butSaveData').on('click', function() {
                 return data;
                 }  
                },  
-              //   { 'data': null,
-              //    'render': function (data, type, row) {
-              //          return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
-              //  }
-              // },               
+                { 'data': null,
+                 'render': function (data, type, row) {
+                       return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+               }
+              },               
             ],
             "deferRender": true,
 
@@ -257,48 +316,48 @@ $('#butSaveData').on('click', function() {
 
    
 
-    // $('#dataTables').on('click', 'button.deleteButton', function () {
+    $('#dataTables').on('click', 'button.deleteButton', function () {
 
-    //   var id = $(this).attr('id');
-    //   // alert(id);
+      var id = $(this).attr('id');
+      // alert(id);
 
-    //   var url ;
-    //   var result = confirm("Are you sure you want to delete?");
-    //   if(result){
-    //   var formData = {commentId:id};
-    //   const url = "http://3.93.137.122:6080/api/comment/deleteCommentByCommentId";
-    //   $.ajax({
-    //     url : url,
-    //     type: "POST",
-    //     headers: {
-    //          Authorization: 'Bearer ' + tokens,
-    //     },
-    //     data : formData,
-    //     success: function(data, textStatus, jqXHR)
-    //     {
-    //         //data - response from server
-    //         var datak = JSON.stringify(data);
-    //         var dataResultp = JSON.parse(datak); 
-    //         // alert(dataResultp);
-    //         alert("Delete Sucessfully !!");
-    //         window.location.reload();
+      var url ;
+      var result = confirm("Are you sure you want to delete?");
+      if(result){
+      var formData = {commentId:id};
+      const url = "http://3.93.137.122:6080/api/comment/deleteCommentByCommentId";
+      $.ajax({
+        url : url,
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            // alert(dataResultp);
+            alert("Delete Sucessfully !!");
+            window.location.reload();
 
-    //     },
-    //     error: function (jqXHR, textStatus, errorThrown)
-    //     {
-    //        alert("Not updated !!");
-    //     }
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
 
-    //    });
+       });
       
 
-    //   } else {
+      } else {
 
-    //       window.location.reload();
+          window.location.reload();
 
-    //   }
+      }
 
-    //   });
+      });
 
         },
 
@@ -376,6 +435,61 @@ $('#butSaveData').on('click', function() {
     }
 
    });
+
+
+//   $("#btn_").on('click', function () {
+//     var checkbox_value = "";
+//     $(":checkbox").each(function () {
+//         var ischecked = $(this).is(":checked");
+//         if (ischecked) {
+//             checkbox_value += $(this).val() + "|";
+//         }
+//     });
+//     alert(checkbox_value);
+// });
+
+
+$("#btn_").on('click', function () {
+
+    var selected = new Array();
+ 
+        $("#dataTables input[type=checkbox]:checked").each(function () {
+                // alert("hii");
+                selected.push(this.value);
+
+            });
+
+        if (selected.length > 0) {
+
+        for (var i = 0; i <= selected.length-1; i++) {
+          var isDelete = confirm("Do you really want to delete records?");
+          if (isDelete == true) {
+                 // AJAX Request
+                 // alert("ajax cl");
+                 // alert(selected);
+                 var commentId = selected[i];
+                 // alert(commentId);
+                 $.ajax({
+                    url: 'http://3.93.137.122:6080/api/comment/deleteCommentByCommentId',
+                    type: 'POST',
+                    headers: {
+                     Authorization: 'Bearer ' + tokens,
+                    },
+                    data: { commentId: commentId},
+                    success: function(response){
+                        // alert(response);
+                       // $.each(selected, function( i,l ){
+                       //     $("#tr_"+l).remove();
+                       // });
+                       window.location.reload();
+                    }
+                 });
+               } 
+             } 
+             alert("Comment deleted Sucessfully !!");
+        
+        }
+  });
 
 
 });

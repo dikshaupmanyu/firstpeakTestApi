@@ -461,9 +461,11 @@ $("#btn_").on('click', function () {
 
         if (selected.length > 0) {
 
+        var isDelete = confirm("Do you really want to delete records?");
+        if (isDelete == true) {
+
         for (var i = 0; i <= selected.length-1; i++) {
-          var isDelete = confirm("Do you really want to delete records?");
-          if (isDelete == true) {
+        
                  // AJAX Request
                  // alert("ajax cl");
                  // alert(selected);
@@ -486,8 +488,7 @@ $("#btn_").on('click', function () {
                  });
                } 
              } 
-             alert("Comment deleted Sucessfully !!");
-        
+             alert("Comment deleted Sucessfully !!");      
         }
   });
 

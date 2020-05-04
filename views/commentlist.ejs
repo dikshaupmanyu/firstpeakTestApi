@@ -209,7 +209,7 @@ fetch(urlk, {
                },  
                 { 'data': null,
                  'render': function (data, type, row) {
-                       return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+                       return '<button id="' + row.id + '" class="deleteButtons">Delete</button>'
                }
               },               
             ],
@@ -222,6 +222,50 @@ fetch(urlk, {
         });
 
 
+    $('#dataTables').on('click', 'button.deleteButtons', function () {
+
+      // alert("fff");
+
+      var id = $(this).attr('id');
+      // alert(ids);
+
+      var url ;
+      var result = confirm("Are you sure you want to delete?");
+      if(result){
+      var formData = {commentId:id};
+       url = "http://3.93.137.122:6080/api/comment/deleteCommentByCommentId";
+      $.ajax({
+        url : url,
+        type: "POST",
+        headers: {
+             Authorization: 'Bearer ' + tokens,
+        },
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            // alert(dataResultp);
+            alert("Delete Sucessfully !!");
+            window.location.reload();
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           alert("Not updated !!");
+        }
+
+       });
+      
+
+      } else {
+
+          window.location.reload();
+
+      }
+
+      });
 
 
       });
@@ -319,6 +363,11 @@ $('#butSaveData').on('click', function() {
               },               
             ],
             "deferRender": true,
+            rowCallback: function ( row, data ) {
+            // Set the checked state of the checkbox in the table
+            // $('input.editor-active', row).prop( 'checked', data.isFlag == true );
+        }
+
 
 
         });
@@ -327,6 +376,8 @@ $('#butSaveData').on('click', function() {
    
 
     $('#dataTables').on('click', 'button.deleteButton', function () {
+
+      alert("fff");
 
       var id = $(this).attr('id');
       // alert(ids);

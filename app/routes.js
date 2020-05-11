@@ -1052,6 +1052,23 @@ app.get('/backmale', isLoggedIn, function(req, res) {
 		
 	});
 
+  app.get('/tipPage',  function(req, res) {
+
+    // console.log(req);
+     
+        res.render('tipPage.ejs');
+     
+    
+  });
+  app.get('/addMentor',  function(req, res) {
+
+    // console.log(req);
+     
+        res.render('addMentor.ejs');
+     
+    
+  });
+
   app.get('/userlist',  function(req, res) {
 
         res.render('userlist.ejs');

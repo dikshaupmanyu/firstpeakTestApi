@@ -1,0 +1,312 @@
+           <%- include partials/mentorheader %>
+
+
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+         <!--  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+          <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+ -->
+          <!-- DataTales Example -->
+
+      <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Add Tip</h6>
+            </div>
+            <div class="card-body">
+  
+
+
+
+  <form id="formoid" onsubmit="return false">
+
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Enter Company Name or Symbol Name</label>
+   <!--  <input type="text" class="form-control" placeholder="Enter Company Name or Symbol Name" id="sel_user"> -->
+
+   <!-- <input type="text" name="stockname" id="stocklist" list="sel_user" onkeyup="myFunction()"> -->
+   <input type="text" id="stocklist" list="sel_user" onchange="myFunction()">
+    <datalist id="sel_user">
+   
+    </datalist>
+
+    <!-- <input class="btn btn-primary" type="button" value="Search" id="butSaveData"> -->
+  </div>
+
+
+  <!-- <div id="stocklist">
+   
+  </div>
+
+  <span id="result"></span> -->
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Set Entry</label>
+    <input type="text" class="form-control" id="setEntry" placeholder="Set Entry">
+
+
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Set Exit</label>
+    <input type="text" class="form-control" id="setExit" placeholder="Set Exit">
+    <input type="hidden" id="createprice">
+    <input type="hidden" id="loginId">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputEmail1">Set Stop</label>
+    <input type="text" class="form-control" id="setStop" placeholder="Set Stop">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Enter Comment</label>
+    <textarea class="form-control" id="commentdata" placeholder="Enter Comment"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">File</label>
+    <input type="file" id="image">
+  </div>
+  <!-- <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div> -->
+
+  <input type="submit" class="btn btn-primary" value="Submit">
+  
+</form>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- End of Main Content -->
+
+                 <%- include partials/footer %>
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+ <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+  <!-- 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+  <script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js" type="text/javascript"></script>
+
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+ var url_string = window.location.href; 
+  var urlst = new URL(url_string);
+  var tokens = urlst.searchParams.get("tokendata");
+
+  $("#formoid").submit(function(event){
+
+    // alert("function 3");
+  
+  var stockName = $('#stocklist').val();
+  // alert(stockName);
+  var userids = $('#loginId').val();
+  var entryPoint = $('#setEntry').val();
+  var exitPoint = $('#setExit').val();
+  var stopPoint = $('#setStop').val();
+  var tipComment = $('#commentdata').val();
+  var imageDetails = $('#image').val();
+  var status = "Pending";
+  var timeFrame = "15 days";
+  var stockSuggestion;
+  var createTipPrice = $('#createprice').val();
+  var formdatas;
+
+  if(entryPoint < exitPoint) {
+
+    // alert("1");
+
+     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:imageDetails ,status:status,timeFrame:timeFrame,stockSuggestion:"Buy",createTipPrice:createTipPrice};
+
+} else if (entryPoint > exitPoint) {
+
+      // alert("2");
+
+
+     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:imageDetails ,status:status,timeFrame:timeFrame,stockSuggestion:"Sell",createTipPrice:createTipPrice};
+
+  } else {
+
+        // alert("3");
+
+
+     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:imageDetails ,status:status,timeFrame:timeFrame,stockSuggestion:"Avoid",createTipPrice:createTipPrice};
+
+   }
+
+ var urlss = "http://3.93.137.122:6080/api/tip/addTip";
+
+     $.ajax({
+        url: urlss,
+        type: "POST",
+        headers: {
+          Authorization: 'Bearer '+ tokens
+        },
+        data: formdatas,
+        success: function(data, textStatus, jqXHR)
+        {
+            //data - response from server
+            var datak = JSON.stringify(data);
+            var dataResultp = JSON.parse(datak); 
+            // console.log(datak);
+            alert("Tip created Sucessfully !!");
+            window.location.reload();
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+           // alert("Not updated !!");
+           alert(errorThrown);
+        }
+
+      });
+
+ });
+
+});
+
+ </script>
+ 
+
+  <script type="text/javascript">
+
+
+
+    window.history.forward(); 
+        function noBack() { 
+            window.history.forward(); 
+        } 
+
+
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+   var userid = urls.searchParams.get("id");
+  $('#loginId').val(userid);
+  function myFunction() {
+     // alert("function 1");
+    var x = document.getElementById("stocklist");
+     x.value = x.value.toUpperCase();
+    var UserSelect = x.value;
+    var formdata = {stockSymbol : UserSelect};
+      $.ajax({
+        type: 'POST',
+        url: 'http://3.93.137.122:6080/api/stocksearchdetails/searchStockSymbol',
+        headers: {
+          Authorization: 'Bearer '+ tokens
+        },
+        data: formdata,
+        success: function(data, textStatus, jqXHR)
+        {
+          var datak = JSON.stringify(data);
+          var dataResult = JSON.parse(datak);
+          var len = dataResult.length;
+
+            $("#sel_user").empty();
+                for( var i = 0; i<len; i++){
+                    var id = dataResult[i]['id'];
+                    var symbol = dataResult[i]['stockSymbol'];
+                    var name = dataResult[i]['stockName'];
+                    // alert(name);
+                    $("#sel_user").append("<option id='radiobtn"+symbol+"' value='"+symbol+"'>"+name+"</option>");
+
+     var dataset= document.getElementById("stocklist").value;
+                    // alert(dataset);     
+
+      var url = "https://cloud.iexapis.com/stable/stock/market/batch?token=pk_dd324da3fb5f4428a47b05ab12f23ce2&types=quote&symbols="+dataset;
+      $.ajax({
+        url : url,
+        type: "GET",
+        success: function(data)
+        {
+               // alert("function 2");
+
+             document.getElementById("setEntry").value = JSON.stringify(data[dataset].quote.latestPrice);
+             document.getElementById("setStop").value = JSON.stringify(data[dataset].quote.latestPrice);
+             document.getElementById("setExit").value = JSON.stringify(data[dataset].quote.latestPrice);
+              document.getElementById("createprice").value = JSON.stringify(data[dataset].quote.latestPrice);
+          
+        }
+
+      });
+
+       }
+
+     }
+
+     });
+
+    }
+
+ </script>
+
+ 
+ <script type="text/javascript">
+  window.addEventListener("load", function() {
+  var url_string = window.location.href; 
+  var urls = new URL(url_string);
+  var tokens = urls.searchParams.get("tokendata");
+
+  var username = urls.searchParams.get("uname");
+  $('#loginName').html(username);
+  var userid = urls.searchParams.get("id");
+  $('#loginId').val(userid);
+ document.getElementById("HomeLink").href = "/tipPage?tokendata="+tokens+"&uname="+username+"&id="+userid;
+  document.getElementById("UserLink").href = "/addMentor?tokendata="+tokens+"&uname="+username+"&id="+userid;
+    
+});
+</script>
+
+</body>
+
+</html>

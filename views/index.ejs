@@ -167,38 +167,62 @@ $(function () {
           password: password            
         },
         dataType:'json',
-        // crossDomain: true,
         cache:false,
-        // contentType: "application/json; charset=utf-8",
-        // headers: {
-        //       Authorization: 'Bearer '+token
-        //   },
         success: function(data){
-          
+          // alert(data);
           var datak = JSON.stringify(data); 
-          var dataResult = JSON.parse(datak);          
-          // alert(dataResult);
-          // alert(dataResult.accessToken);
+          var dataResult = JSON.parse(datak); 
+          // alert(dataResult);         
           if(dataResult.accessToken){
-          // function tokenSuccess(err, response) {
-          //   alert(response);
-          //     if(err){
-          //         throw err;
-          //     }
-          //   window.sessionStorage.accessToken = response.body.access_token;
-          // }
-            // alert("true");
-            $("#success").show();
-            $('#success').html('Login Sucessfully !');
-           
-             //  function saveToken() {
-             //    alert("token");
-             var tdss = dataResult.accessToken;
-             // alert(tdss);
-             //   var tdsk = sessionStorage.setItem('token', dataResult.accessToken);
-             //    alert(tdsk);
-             // }
-            window.location.href = "/home?tokendata="+tdss;            
+
+              if(userName == "admin"){
+
+               
+                var tdss = dataResult.accessToken;
+                window.location.href = "/home?tokendata="+tdss;  
+
+              }
+              if(userName != "admin"){
+
+              $.ajax({
+              type: 'POST',
+              url: 'http://3.93.137.122:6080/api/appUser/getAppUserByUserName',
+              headers: {
+                Authorization: 'Bearer '+ localStorage.getItem("token"),
+                Authorization: 'Bearer '+ sessionStorage.getItem("token")
+              },
+              data: {
+                appuserName: userName          
+              },
+              dataType:'json',
+              cache:false,
+              success: function(datat){
+                // alert(datat);
+                var datakt = JSON.stringify(datat); 
+                var dataResultt = JSON.parse(datakt); 
+                // alert(dataResultt.isMentor);   
+                  if(dataResultt.isMentor == true){
+
+                     var newtokenvals = dataResult.accessToken;
+                     // alert(newtokenvals);
+                     var username = dataResultt.userName;
+                     var userid = dataResultt.id;
+                     // alert(username);
+
+                      window.location.href = "/tipPage?tokendata="+newtokenvals+"&uname="+username+"&id="+userid; 
+
+                    }else{
+
+                      alert('Invalid EmailId or Password !');
+                      window.location.href = "/"; 
+
+                    }
+
+                }
+
+             });
+              }          
+                       
           }
           else if(dataResult.statusCode==201){
             // alert("false");

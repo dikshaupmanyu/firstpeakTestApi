@@ -18,7 +18,7 @@
 
 
 
-  <form id="formoid" onsubmit="return false">
+  <form id="formoid" enctype="multipart/form-data" onsubmit="return false">
 
 
   <div class="form-group">
@@ -63,8 +63,10 @@
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">File</label>
-    <input type="file" id="image">
+    <input type="file" id="image" value="public/upload/image.jpg">
+
   </div>
+
   <!-- <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
@@ -139,10 +141,13 @@
  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
 
 <script type="text/javascript">
-    $(document).ready(function(){
- var url_string = window.location.href; 
+
+$(document).ready(function(){
+  var url_string = window.location.href; 
   var urlst = new URL(url_string);
   var tokens = urlst.searchParams.get("tokendata");
+
+
 
   $("#formoid").submit(function(event){
 
@@ -160,33 +165,39 @@
   var timeFrame = "15 days";
   var stockSuggestion;
   var createTipPrice = $('#createprice').val();
+  // var imageDetails = "public/upload/image.jpg";
+  // alert(imageDetails);
+  // event.stopPropagation();
+
   var formdatas;
+
+   
 
   if(entryPoint < exitPoint) {
 
-    // alert("1");
+     // alert("1");
 
-     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:imageDetails ,status:status,timeFrame:timeFrame,stockSuggestion:"Buy",createTipPrice:createTipPrice};
+     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:"/C:/cameraApp/public/images/blog/1.jpg",status:status,timeFrame:timeFrame,stockSuggestion:"Buy",createTipPrice:createTipPrice};
 
 } else if (entryPoint > exitPoint) {
 
-      // alert("2");
+       // alert("2");
 
 
-     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:imageDetails ,status:status,timeFrame:timeFrame,stockSuggestion:"Sell",createTipPrice:createTipPrice};
+     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:"/C:/cameraApp/public/images/blog/1.jpg",status:status,timeFrame:timeFrame,stockSuggestion:"Sell",createTipPrice:createTipPrice};
 
   } else {
 
-        // alert("3");
+         // alert("3");
 
-
-     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:imageDetails ,status:status,timeFrame:timeFrame,stockSuggestion:"Avoid",createTipPrice:createTipPrice};
+     formdatas = {stockName : stockName ,userId : userids, entryPoint : entryPoint ,exitPoint:exitPoint,stopPoint:stopPoint,tipComment:tipComment,imageDetails:"/C:/cameraApp/public/images/blog/1.jpg",status:status,timeFrame:timeFrame,stockSuggestion:"Avoid",createTipPrice:createTipPrice};
 
    }
 
+
  var urlss = "http://3.93.137.122:6080/api/tip/addTip";
 
-     $.ajax({
+   $.ajax({
         url: urlss,
         type: "POST",
         headers: {
@@ -198,7 +209,7 @@
             //data - response from server
             var datak = JSON.stringify(data);
             var dataResultp = JSON.parse(datak); 
-            // console.log(datak);
+            // alert(datak);
             alert("Tip created Sucessfully !!");
             window.location.reload();
 

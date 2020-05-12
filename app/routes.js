@@ -95,7 +95,9 @@ module.exports = function(app, passport) {
     var enc = new Base64();
      var b64 = enc.urlEncode(req.query);
 
-    console.log(Base64(finaldata));
+    // console.log(Base64(finaldata));
+
+     console.log(btoa(finaldata));
 
     // res.send(200);
      res.on("data", function(chunk) {
@@ -638,6 +640,7 @@ app.get('/backmale', isLoggedIn, function(req, res) {
       
 
    });
+
 
 //////////////////////////////////////////////////////////////////////
  

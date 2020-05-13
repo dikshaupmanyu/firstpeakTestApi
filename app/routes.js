@@ -59,14 +59,15 @@ module.exports = function(app, passport) {
    // console.log(res);
     
     var statusdata = req.query.status;
+    var timedata = req.query.currenttime;
     // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
        let rawdata = fs.readFileSync('public/json/bushwickWord.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
-        console.log(userdetail);  
-        console.log(userdetail.status);
-        var userdetailt = { status : statusdata};
+        // console.log(userdetail);  
+        // console.log(userdetail.status);
+        var userdetailt = { status : statusdata , currenttime : timedata};
 
         let data = JSON.stringify(userdetailt, null, 2);
 
@@ -113,6 +114,7 @@ module.exports = function(app, passport) {
    // console.log(res);
     
     var statusdata = req.query.status;
+    var timedata = req.query.currenttime;
     // var tokenstatus = req.query.tokenval;        
      var fs = require("fs");
        let rawdata = fs.readFileSync('public/json/seanWord.json');
@@ -120,7 +122,7 @@ module.exports = function(app, passport) {
         // let userdetailNew = JSON.parse(userdetail);
         // console.log(userdetail);  
         // console.log(userdetail.status);
-        var userdetailt = { status : statusdata};
+        var userdetailt = { status : statusdata , currenttime : timedata};
 
         let data = JSON.stringify(userdetailt, null, 2);
 
@@ -138,14 +140,15 @@ module.exports = function(app, passport) {
    // console.log(res);
     
     var statusdata = req.query.status;
-    // var tokenstatus = req.query.tokenval;        
+    // var tokenstatus = req.query.tokenval;    
+    var timedata = req.query.currenttime;    
      var fs = require("fs");
        let rawdata = fs.readFileSync('public/json/seanBlack.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
         // console.log(userdetail);  
         // console.log(userdetail.status);
-        var userdetailt = { status : statusdata};
+        var userdetailt = { status : statusdata , currenttime : timedata};
 
         let data = JSON.stringify(userdetailt, null, 2);
 
@@ -164,14 +167,15 @@ module.exports = function(app, passport) {
    // console.log(res);
     
     var statusdata = req.query.status;
-    // var tokenstatus = req.query.tokenval;        
+    // var tokenstatus = req.query.tokenval;   
+    var timedata = req.query.currenttime;     
      var fs = require("fs");
        let rawdata = fs.readFileSync('public/json/bushwikBlack.json');
        let userdetail = JSON.parse(rawdata);
         // let userdetailNew = JSON.parse(userdetail);
-        console.log(userdetail);  
-        console.log(userdetail.status);
-        var userdetailt = { status : statusdata};
+        // console.log(userdetail);  
+        // console.log(userdetail.status);
+        var userdetailt = { status : statusdata , currenttime :timedata};
 
         let data = JSON.stringify(userdetailt, null, 2);
 

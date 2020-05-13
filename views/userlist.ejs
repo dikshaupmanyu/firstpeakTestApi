@@ -144,6 +144,11 @@ fetch(url, {
             "aaData": data,   
             "lengthMenu": [ 500, 1000, 2000, 3000, 4000, 5000 ],
             "pageLength": 500,
+            "aaSorting": [[ 3, "desc" ]],
+            "columnDefs": [ {
+            "targets": 4,
+            "orderable": false
+            } ],
             "columns": [
                 // { "data": "id" },
                 { "data": "userName" },
@@ -217,13 +222,13 @@ fetch(url, {
 
                        if(data == null){
 
-                        return '<input type="button" class="updateStatusdata" value="UnBlock">';
+                        return '<input type="button" class="updateStatusdata" value="Release">';
 
                         //  return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=1" id="userStatus">UnBlock</a>';
 
                         }else if(data == "Enable") {
 
-                           return '<input type="button" class="updateStatusdata" value="UnBlock">';
+                           return '<input type="button" class="updateStatusdata" value="Release">';
                         //   return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=1" id="userStatus">UnBlock</a>';
 
                         }else {
@@ -376,9 +381,6 @@ fetch(url, {
 
     $('#dataTables').on('click', 'button.imgbtn', function () {
 
-    // alert(tokens);
-    // alert("hii");
-    var btoa;
     var table = $('#dataTables').DataTable();
     var row = table.row(this.closest('tr')).data();
     var userdata = row["userName"];
@@ -406,16 +408,6 @@ fetch(url, {
    });
 
 
-
- 
-
-
-// function logout() {
-//   // body...
-//   localStorage.clear();
-//   sessionStorage.clear();
-//   window.location.href = "/";
-// }
 
 });
 

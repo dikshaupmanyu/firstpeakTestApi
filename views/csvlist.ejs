@@ -72,7 +72,7 @@ input:checked + .slider:before {
 
       <div class="card shadow mb-4">
            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+              <h6 class="m-0 font-weight-bold text-primary">CSV List</h6>
 
              <!--  <h6 class="m-0 font-weight-bold text-primary">CSV List</h6>
               Click the button then choose a file to see its contents displayed below.
@@ -148,10 +148,12 @@ input:checked + .slider:before {
                       <a href="/csv/words.csv" download>Download CSV File</a>
                     </td>
                     <td> <label class="switch">
-                   <input type="checkbox" id="togBtn1">
+                   <input type="checkbox" id="togBtn1" onclick="show_now1();">
 
                   <span class="slider round"></span>
               </label>
+              <div id="display1"></div>
+
               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
               <script type="text/javascript">
@@ -161,13 +163,15 @@ input:checked + .slider:before {
                    var url_string = window.location.href; 
                     var urls = new URL(url_string);
                     var tokens = urls.searchParams.get("tokendata");
+                    var time = $("#display1").text();
+                    // alert(time);
                     if ($(this).is(':checked')) {
                         switchStatus = $(this).is(':checked');
                          // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
                         url: '/Seanwordstatus',
-                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                        data: {status: switchStatus , tokenval : tokens ,currenttime : time},success:function(data){   
                            var datakk = JSON.stringify(data);
                             // alert(datakk);
                            // alert("Your OTP is : " + data["Otpdata"]);
@@ -183,7 +187,7 @@ input:checked + .slider:before {
                        $.ajax({
                         type: 'GET',
                         url: '/Seanwordstatus',
-                        data: {status: switchStatus, tokenval : tokens},   
+                        data: {status: switchStatus, tokenval : tokens ,currenttime : time},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
                             // alert(datakk);
@@ -198,10 +202,12 @@ input:checked + .slider:before {
             </td>
               <td>
                <label class="switch">
-                   <input type="checkbox" id="togBtn2">
+                   <input type="checkbox" id="togBtn2" onclick="show_now2();">
 
                   <span class="slider round"></span>
               </label>
+              <div id=display2></div>
+
               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
               <script type="text/javascript">
@@ -213,11 +219,13 @@ input:checked + .slider:before {
                     var tokens = urls.searchParams.get("tokendata");
                     if ($(this).is(':checked')) {
                         switchStatus = $(this).is(':checked');
+                         var time = $("#display2").text();
+                         // alert(time);
                         // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
                         url: '/Bushwickwordstatus',
-                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                        data: {status: switchStatus , tokenval : tokens , currenttime : time},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
                            // alert("Your OTP is : " + data["Otpdata"]);
@@ -233,7 +241,7 @@ input:checked + .slider:before {
                        $.ajax({
                         type: 'GET',
                         url: '/Bushwickwordstatus',
-                        data: {status: switchStatus, tokenval : tokens},   
+                        data: {status: switchStatus, tokenval : tokens , currenttime : time},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -250,10 +258,12 @@ input:checked + .slider:before {
                     <td>Black_list.csv</td>
                     <td><a href="/csv/Black_list.csv" download>Download CSV File</a></td>
                     <td> <label class="switch">
-                   <input type="checkbox" id="togBtn3">
+                   <input type="checkbox" id="togBtn3" onclick="show_now3();">
 
                   <span class="slider round"></span>
               </label>
+              <div id=display3></div>
+
               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
               <script type="text/javascript">
@@ -263,13 +273,15 @@ input:checked + .slider:before {
                    var url_string = window.location.href; 
                     var urls = new URL(url_string);
                     var tokens = urls.searchParams.get("tokendata");
+                     var time = $("#display3").text();
+                    // alert(time);
                     if ($(this).is(':checked')) {
                         switchStatus = $(this).is(':checked');
                          // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
                         url: '/seanblackliststatus',
-                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                        data: {status: switchStatus , tokenval : tokens , currenttime : time},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
                            // alert("Your OTP is : " + data["Otpdata"]);
@@ -285,7 +297,7 @@ input:checked + .slider:before {
                        $.ajax({
                         type: 'GET',
                         url: '/seanblackliststatus',
-                        data: {status: switchStatus, tokenval : tokens},   
+                        data: {status: switchStatus, tokenval : tokens , currenttime : time},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -298,10 +310,12 @@ input:checked + .slider:before {
                 });
               </script></td>
               <td> <label class="switch">
-                   <input type="checkbox" id="togBtn4">
+                   <input type="checkbox" id="togBtn4" onclick="show_now4();">
 
                   <span class="slider round"></span>
               </label>
+              <div id=display4></div>
+
               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
               <script type="text/javascript">
@@ -312,11 +326,13 @@ input:checked + .slider:before {
                     var tokens = urls.searchParams.get("tokendata");
                     if ($(this).is(':checked')) {
                         switchStatus = $(this).is(':checked');
+                         var time = $("#display4").text();
+                         // alert(time);
                         // alert("HII" + switchStatus);// To verify                     
                       $.ajax({
                         type: 'GET',
                         url: '/bushwickBlackStatus',
-                        data: {status: switchStatus , tokenval : tokens},success:function(data){   
+                        data: {status: switchStatus , tokenval : tokens , currenttime : time},success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
                            // alert("Your OTP is : " + data["Otpdata"]);
@@ -332,7 +348,7 @@ input:checked + .slider:before {
                        $.ajax({
                         type: 'GET',
                         url: '/bushwickBlackStatus',
-                        data: {status: switchStatus, tokenval : tokens},   
+                        data: {status: switchStatus, tokenval : tokens , currenttime : time},   
                           success:function(data){   
                            var datakk = JSON.stringify(data);
                            // alert(datakk);
@@ -431,7 +447,24 @@ input:checked + .slider:before {
       <!-- End of Main Content -->
 
                  <%- include partials/footer %>
-
+<script type="text/javascript"> 
+function show_now1() { 
+var my_time = new Date();
+document.getElementById('display1').innerHTML=my_time
+}
+function show_now2() { 
+var my_time = new Date();
+document.getElementById('display2').innerHTML=my_time
+}
+function show_now3() { 
+var my_time = new Date();
+document.getElementById('display3').innerHTML=my_time
+}
+function show_now4() { 
+var my_time = new Date();
+document.getElementById('display4').innerHTML=my_time
+}
+</script>
 
     </div>
     <!-- End of Content Wrapper -->
@@ -549,17 +582,19 @@ function openFile(func) {
 
  $.getJSON( "json/seanWord.json", function( data ) {
 
-        // alert("value is" + data.status);
+          // alert("value is" + data.currenttime);
 
      if(data.status == "true"){
-       // alert("true");
+        // alert("true");
 
       document.getElementById("togBtn1").checked = true;
+      document.getElementById("display1").innerHTML  = data.currenttime;
 
      }else {
        // alert("false");
 
       document.getElementById("togBtn1").checked = false;
+      document.getElementById("display1").innerHTML  = "";
 
      }
   
@@ -575,11 +610,15 @@ function openFile(func) {
       // alert("true");
 
       document.getElementById("togBtn2").checked = true;
+      document.getElementById("display2").innerHTML  = data.currenttime;
+
 
      }else {
       // alert("false");
 
       document.getElementById("togBtn2").checked = false;
+      document.getElementById("display2").innerHTML  = "";
+
 
      }
   
@@ -596,11 +635,15 @@ function openFile(func) {
       // alert("true");
 
       document.getElementById("togBtn3").checked = true;
+      document.getElementById("display3").innerHTML  = data.currenttime;
+
 
      }else {
       // alert("false");
 
       document.getElementById("togBtn3").checked = false;
+      document.getElementById("display3").innerHTML  = "";
+
 
      }
  
@@ -617,11 +660,15 @@ function openFile(func) {
       // alert("true");
 
       document.getElementById("togBtn4").checked = true;
+      document.getElementById("display4").innerHTML  = data.currenttime;
+
 
      }else {
       // alert("false");
 
       document.getElementById("togBtn4").checked = false;
+      document.getElementById("display4").innerHTML  = "";
+
 
      }
 

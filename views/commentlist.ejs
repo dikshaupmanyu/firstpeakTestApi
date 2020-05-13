@@ -56,7 +56,7 @@
             <div class="card-body">
               <div class="table-responsive">
 
-              <input type="button" class="btn btn-primary" id="btn_" value="Delete All Comment" />
+            <!--   <input type="button" class="btn btn-primary" id="btn_" value="Delete All Comment" /> -->
 
                 <br>
 
@@ -64,11 +64,11 @@
                   <thead>
                     <tr>
                       <!-- <th>Id</th> -->
-                      <th></th>
+                     <!--  <th></th> -->
                       <th>Comments</th>
                       <th>Username</th>
                       <th>Status</th>
-                      <th>Action</th>
+                      <!-- <th>Action</th> -->
  <!--                       <th>Authenticate by Email</th>
                     </tr>
                   </thead>
@@ -184,13 +184,13 @@ fetch(urlk, {
             "aaData": data, 
             "columns": [
                 // { "data": "id" },
-                { "data" : null ,
-                  'render': function (data, type, row) {
-                       // return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+                // { "data" : null ,
+                //   'render': function (data, type, row) {
+                //        // return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
 
-                       return '<input type="checkbox" id="' + row.id + '" value="' + row.id + '" name="letter[]">';
-                }
-                },
+                //        return '<input type="checkbox" id="' + row.id + '" value="' + row.id + '" name="letter[]">';
+                // }
+                // },
                 { "data": "commentDetails" },
                 { "data": "appUser.userName" },
                 { "data": "status",
@@ -207,11 +207,11 @@ fetch(urlk, {
                 return data;
                 }  
                },  
-                { 'data': null,
-                 'render': function (data, type, row) {
-                       return '<button id="' + row.id + '" class="deleteButtons">Delete</button>'
-               }
-              },               
+              //   { 'data': null,
+              //    'render': function (data, type, row) {
+              //          return '<button id="' + row.id + '" class="deleteButtons">Delete</button>'
+              //  }
+              // },               
             ],
             "deferRender": true,
             rowCallback: function ( row, data ) {

@@ -35,7 +35,7 @@
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
-                    <a id="FlagCallLink"><div class="col mr-2">
+                    <a id="FlagCallsLink"><div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Flag Comment</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="toatlflagcomnt"></span></div>
                     </div></a>
@@ -271,10 +271,11 @@ function logout() {
    document.getElementById("HomeLink").href = "/home?tokendata="+tokens;
   document.getElementById("UserLink").href = "/userlist?tokendata="+tokens;
   document.getElementById("UserCallLink").href = "/userlist?tokendata="+tokens;
+  document.getElementById("FlagCallsLink").href = "/flaglist?tokendata="+tokens;
    document.getElementById("CommentLink").href = "/commentlist?tokendata="+tokens;
    document.getElementById("CSVLink").href = "/csvlist?tokendata="+tokens;
 
-  document.getElementById("FlagCallLink").href = "/flaglist?tokendata="+tokens;
+  
     
 });
 </script>

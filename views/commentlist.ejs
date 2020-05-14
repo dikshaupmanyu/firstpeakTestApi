@@ -199,9 +199,9 @@ fetch(urlk, {
                   if ( type === 'display' ) {
 
                       if(data == "approved"){
-                       return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
+                       return '<button id="' + row.id + '" class="approveStatus">Show</button>'
                       }else{
-                        return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
+                        return '<button id="' + row.id + '" class="approveStatus">Hide</button>'
                       }
                   }
                 return data;

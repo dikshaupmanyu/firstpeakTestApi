@@ -8,6 +8,9 @@
       <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Flag Comment  List</h6>
+              <br>
+              <button id="resetData">Reset Flag Status</button>
+
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -124,6 +127,7 @@ fetch(url, {
 })
   .then(resp => resp.json())
     .then(function(data) {
+      // alert(JSON.stringify(data[0].status));
            $('#dataTables').dataTable( {
             "aaData": data, 
             "columns": [
@@ -180,6 +184,11 @@ fetch(url, {
               ],
             "deferRender": true,
             rowCallback: function ( row, data ) {
+            $("#resetData").click(function(){
+            
+              // alert("hi");
+              $('input.editor-active', row).prop( 'checked', data.isFlag == true );
+            });
             // Set the checked state of the checkbox in the table
             $('input.editor-active', row).prop( 'checked', data.isFlag == true );
         }
@@ -235,11 +244,12 @@ fetch(url, {
     // alert(id);
     var table = $('#dataTables').DataTable();
     var row = table.row(this.closest('tr')).data();
-    var result = confirm("Are you sure you want to unflag the comment?");
+    var result = confirm("Are you sure you want to remove this flagged comment forever and ever and everrrr?");
     if(result){
     var ids = row["id"];
     var reason = row["flagReason"];
     var formData = {id:ids,flagReason:reason};
+    // alert(formData);
        $.ajax({
         url : "http://3.93.137.122:6080/api/tipCommentFlag/UnFlagTipCommentFlag",
         type: "POST",
@@ -251,6 +261,7 @@ fetch(url, {
         {
             //data - response from server
             var datak = JSON.stringify(data);
+            // alert(datak);
             var dataResultp = JSON.parse(datak); 
             alert("Comment Unflag Sucessfully !!");
         },

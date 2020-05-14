@@ -72,7 +72,7 @@
     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
   </div> -->
 
-  <input type="submit" class="btn btn-primary" value="Submit">
+  <input type="submit" id="datasubmit" class="btn btn-primary" value="Submit">
 
   <input type="reset" class="btn btn-primary" value="Cancel">
   
@@ -149,7 +149,12 @@ $(document).ready(function(){
   var urlst = new URL(url_string);
   var tokens = urlst.searchParams.get("tokendata");
 
-
+  $('form input').keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+});
 
   $("#formoid").submit(function(event){
 

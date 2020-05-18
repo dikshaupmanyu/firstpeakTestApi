@@ -8,8 +8,8 @@
       <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Flag Comment  List</h6>
-              <br>
-              <button id="resetData">Reset Flag Status</button>
+             <!--  <br> -->
+              <!-- <button id="resetData">Reset Flag Status</button> -->
 
             </div>
             <div class="card-body">
@@ -184,11 +184,11 @@ fetch(url, {
               ],
             "deferRender": true,
             rowCallback: function ( row, data ) {
-            $("#resetData").click(function(){
+            // $("#resetData").click(function(){
             
-              // alert("hi");
-              $('input.editor-active', row).prop( 'checked', data.isFlag == true );
-            });
+            //   // alert("hi");
+            //   $('input.editor-active', row).prop( 'checked', data.isFlag == true );
+            // });
             // Set the checked state of the checkbox in the table
             $('input.editor-active', row).prop( 'checked', data.isFlag == true );
         }

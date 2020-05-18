@@ -128,15 +128,19 @@ window.addEventListener("load", function() {
   var tokens = urls.searchParams.get("tokendata");
   // alert(tokens);
 
-const url = "http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsers";
-fetch(url, {
-  method: "POST",
-  headers: {
-          Authorization: 'Bearer ' + tokens,
+// const Offset = "1";
+// const Limit = "1000";
+// const formdata = {offset : Offset , limit : Limit};
+// alert(JSON.stringify(formdata));
+$.ajax({
+        type: 'POST',
+        // url: 'http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsersPagination',
+        url: 'http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsers',
+        headers: {
+          Authorization: 'Bearer '+ tokens
         },
-})
-  .then(resp => resp.json())
-    .then(function(data) {
+        // data: formdata,
+      success: function(data) {
        var datak = JSON.stringify(data);
        var dataResult = JSON.parse(datak); 
         var len = dataResult.length;
@@ -242,29 +246,17 @@ fetch(url, {
                 },
 
               },
-            // {
-            //     "data":   "id",
-            //     render: function ( data, type, row ) {
-            //         if ( type === 'display' ) {
-            //             return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'">Edit</a>';
-                       
-            //         }
-            //         return data;
-            //     },
-
-            //   },
             ],
             rowCallback: function ( row, data ) {
             // Set the checked state of the checkbox in the table
             $('input.editor-active', row).prop( 'checked', data.isMentor == true );
-        }
 
-        })
-  })
-  .catch(function(error) {
-    console.log(error);
+          }
+       
   });
+ }
 
+ });
 
    // $('#dataTables').on('click', 'tbody td:not(:first-child)', function () {
    $('#dataTables').on('click', 'input.editor-active', function () {

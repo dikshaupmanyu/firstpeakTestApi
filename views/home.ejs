@@ -176,7 +176,7 @@ window.addEventListener("load", function() {
   var tokens = urls.searchParams.get("tokendata");
   // alert(tokens);
 
-const url = "http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsers";
+const url = "http://3.93.137.122:6080/api/appUserWebModify/getAllAppUsersCount";
 fetch(url, {
   method: "POST",
   headers: {
@@ -187,8 +187,8 @@ fetch(url, {
     .then(function(data) {
        var datak = JSON.stringify(data);
        var dataResult = JSON.parse(datak); 
-       // alert(dataResult);
-        $('#toatluser').html(dataResult.length);
+        // alert(dataResult["Total Users"]);
+        $('#toatluser').html(dataResult["TotalUsers"]);
 
 
   })
@@ -223,37 +223,6 @@ fetch(url1, {
     console.log(error);
   });
 
-// $.ajax({
-//         type: 'POST',
-//         url: 'http://3.93.137.122:6080/api/appUser/getAllAppUsers',
-//         headers: {
-//           Authorization: 'Bearer '+ localStorage.getItem("token"),
-//           Authorization: 'Bearer '+ sessionStorage.getItem("token")
-//         },
-//         dataType:'json',
-//         // crossDomain: true,
-//         cache:false,
-//         // contentType: "application/json; charset=utf-8",
-//         success: function(data){
-          
-//           var datak = JSON.stringify(data);
-//            var dataResult = JSON.parse(datak); 
-//             // alert(dataResult.length);         
-//           // alert(dataResult);
-//           // if(dataResult){
-//           //   alert("true");
-//           // $("#success").show();
-//           $('#toatluser').html(dataResult.length);
-//           //   window.location.href = "/home";            
-//           // }
-//           // else if(dataResult.statusCode==201){
-//           //   alert("false");
-//           //   $("#error").show();
-//           //   $('#error').html('Invalid EmailId or Password !');
-//           // }
-          
-//         }
-//       });
  });
 
 function logout() {

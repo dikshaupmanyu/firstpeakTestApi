@@ -226,18 +226,18 @@ $.ajax({
 
                        if(data == null){
 
-                        return '<input type="button" class="updateStatusdata" value="Release">';
+                        return '<input type="button" class="updateStatusdata" value="Block">';
 
                         //  return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=1" id="userStatus">UnBlock</a>';
 
                         }else if(data == "Enable") {
 
-                           return '<input type="button" class="updateStatusdata" value="Release">';
+                           return '<input type="button" class="updateStatusdata" value="Block">';
                         //   return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=1" id="userStatus">UnBlock</a>';
 
                         }else {
                         //   return '<a href="updateData?id='+row.id+'&username='+row.userName+'&tokendata='+tokens+'&status=0" id="userStatus">Block</a>';
-                         return '<input type="button" class="updateStatusdata" value="Block">';
+                         return '<input type="button" class="updateStatusdata" value="Release">';
 
                         }
                        

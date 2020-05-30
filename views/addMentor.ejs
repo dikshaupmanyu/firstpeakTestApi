@@ -315,14 +315,14 @@ $(document).ready(function(){
   var url_string = window.location.href; 
   var urls = new URL(url_string);
   var tokens = urls.searchParams.get("tokendata");
-
+  var jwtTokens = urls.searchParams.get("chatToken");
   var username = urls.searchParams.get("uname");
   $('#loginName').html(username);
   var userid = urls.searchParams.get("id");
   $('#loginId').val(userid);
  document.getElementById("HomeLink").href = "/tipPage?tokendata="+tokens+"&uname="+username+"&id="+userid;
   document.getElementById("UserLink").href = "/addMentor?tokendata="+tokens+"&uname="+username+"&id="+userid;
-    
+  document.getElementById("ChatManageLink").href = "/chatManage?tokendata="+tokens+"&uname="+username+"&id="+userid+"&chatToken="+jwtTokens;
 });
 </script>
 

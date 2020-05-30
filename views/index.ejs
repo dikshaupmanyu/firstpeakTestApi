@@ -205,11 +205,12 @@ $(function () {
 
                      var newtokenvals = dataResult.accessToken;
                      // alert(newtokenvals);
+                     var newJWTtokenvals = dataResult.accessTokenStreamIO;
                      var username = dataResultt.userName;
                      var userid = dataResultt.id;
                      // alert(username);
 
-                      window.location.href = "/tipPage?tokendata="+newtokenvals+"&uname="+username+"&id="+userid; 
+                      window.location.href = "/tipPage?tokendata="+newtokenvals+"&uname="+username+"&id="+userid+"&chatToken="+newJWTtokenvals; 
 
                     }else{
 

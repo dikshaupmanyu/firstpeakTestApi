@@ -67,7 +67,7 @@
                      <!--  <th></th> -->
                       <th>Comments</th>
                       <th>Username</th>
-                      <th>Status</th>
+                      <th>Action</th>
                       <!-- <th>Action</th> -->
  <!--                       <th>Authenticate by Email</th>
                     </tr>
@@ -199,9 +199,9 @@ fetch(urlk, {
                   if ( type === 'display' ) {
 
                       if(data == "approved"){
-                       return '<button id="' + row.id + '" class="approveStatus">Show</button>'
+                       return '<button id="' + row.id + '" class="approveStatus">Hide</button>'
                       }else{
-                        return '<button id="' + row.id + '" class="approveStatus">Hide</button>'
+                        return '<button id="' + row.id + '" class="approveStatus">Show</button>'
                       }
                   }
                 return data;
@@ -317,7 +317,7 @@ $('#butSaveData').on('click', function() {
         success: function(data, textStatus, jqXHR)
         {
             //data - response from server
-            // alert(data);
+          // alert(data);
           var datak = JSON.stringify(data);
           var dataResultp = JSON.parse(datak); 
           var len = dataResultp.length;
@@ -333,13 +333,13 @@ $('#butSaveData').on('click', function() {
             "aaData": data,   
             "columns": [
                 // { "data": "id" },
-                 { "data" : null ,
-                  'render': function (data, type, row) {
-                       // return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+                //  { "data" : null ,
+                //   'render': function (data, type, row) {
+                //        // return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
 
-                       return '<input type="checkbox" id="' + row.id + '" value="' + row.id + '" name="letter[]">';
-                }
-                },
+                //        return '<input type="checkbox" id="' + row.id + '" value="' + row.id + '" name="letter[]">';
+                // }
+                // },
                 { "data": "commentDetails" },
                 { "data": "appUser.userName" },
                 { "data": "status",
@@ -348,19 +348,19 @@ $('#butSaveData').on('click', function() {
                   if ( type === 'display' ) {
 
                       if(data == "approved"){
-                       return '<button id="' + row.id + '" class="approveStatus">Approved</button>'
+                       return '<button id="' + row.id + '" class="approveStatus">Hide</button>'
                       }else{
-                        return '<button id="' + row.id + '" class="approveStatus">Pending</button>'
+                        return '<button id="' + row.id + '" class="approveStatus">Show</button>'
                       }
                   }
                 return data;
                 }  
                },  
-                { 'data': null,
-                 'render': function (data, type, row) {
-                       return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
-               }
-              },               
+              //   { 'data': null,
+              //    'render': function (data, type, row) {
+              //          return '<button id="' + row.id + '" class="deleteButton">Delete</button>'
+              //  }
+              // },               
             ],
             "deferRender": true,
             rowCallback: function ( row, data ) {

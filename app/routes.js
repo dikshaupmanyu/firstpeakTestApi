@@ -1067,6 +1067,75 @@ app.get('/backmale', isLoggedIn, function(req, res) {
      
     
   });
+  app.get('/chatManage',  function(req, res) {
+
+   
+      console.log(req.query);
+
+    var StreamChat = require('stream-chat').StreamChat;
+    var await = require("await");
+    var fetchChannels = require('node-fetch');
+    var client = new StreamChat("g8yfg5w2yd32");
+    var token = req.query.chatToken;
+    var userName = req.query.uname;
+    client.setUser(
+    {
+        id: userName,
+        name: 'Govinda',
+        image: 'https://i.imgur.com/fR9Jz14.png',
+    },
+    token,
+    );
+    // var filters = { type: 'messaging', members: { $in: [userName] } };
+    // var filters = { type: 'public' };
+    // var sort = { last_message_at: -1 };
+    // var c;
+
+    // var conversation = client.channel('messaging', 'channel-name', {
+    // name: 'Founder Chat',
+    // image: 'http://bit.ly/2O35mws',
+    // members: ['aditi', 'kratika'],
+
+    // });
+
+    // conversation.create();
+
+    // var state = conversation.watch();
+
+  //   var channels = client.queryChannels(filters, sort, {
+  //   limit: 10, offset: 0
+  //   });
+
+
+  // console.log(channels);
+
+
+     fetchChannels = async () => {
+      const customAttFilter = {
+        type: "messaging",
+        members: { $in: [userName] },
+      };
+
+      const channels = await client.queryChannels(customAttFilter, sort, {
+        limit: 30,
+        offset: 0,
+        watch: true,
+      });
+      return channels;
+
+     console.log(JSON.parse(channels)); 
+    };
+
+
+  
+    
+        res.render('chatManage.ejs');
+     
+    
+  });
+
+
+
   app.get('/addMentor',  function(req, res) {
 
     // console.log(req);

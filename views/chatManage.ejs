@@ -14,6 +14,7 @@
           <!-- Content Row -->
           <div class="row">
 
+            <div id="click-me-div"></div>
             <!-- <div id="root">
             </div> -->   
     <div class="main-container">
@@ -22,7 +23,18 @@
         </div>
         <div class="chat-container" style="display: grid;background: white;">
             
-        <div class="users" id="users"></div>
+        <div class="users">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#users" data-toggle="tab">Your Rooms</a></li>
+            <li><a href="#veggies" data-toggle="tab">Inviation</a></li>
+            <li><a href="#samosas" data-toggle="tab">Public Chat</a></li>
+          </ul>
+          <div class="tab-content">
+              <div class="tab-pane active" id="users"></div>
+              <div class="tab-pane" id="veggies">Kale, Spinach, Pepper</div>
+              <div class="tab-pane" id="samosas">Awesome, Spine Tingling, Explosive</div>
+          </div>
+        </div>
             <div class="message-container"> 
                 <div class="chat-body" id="messages"></div>
                 <div class="message-box"> 
@@ -151,6 +163,15 @@
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+    $("#click-me-div").click(function() {
+        alert('yes, the click actually happened');
+        $('.nav-tabs a[href="#samosas"]').tab('show');
+    });
+});
+  </script>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
